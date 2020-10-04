@@ -123,14 +123,7 @@ export class Multicall {
     );
 
     return (await contract.methods
-      .aggregate(
-        calls.map((call) => {
-          return {
-            target: call.contractTarget,
-            callData: call.callData,
-          };
-        })
-      )
+      .aggregate(this.mapCallContextToMatchContractFormat(calls))
       .call()) as AggregateResponse;
   }
 
@@ -166,13 +159,26 @@ export class Multicall {
     );
 
     return (await contract.aggregate(
-      calls.map((call) => {
-        return {
-          target: call.contractTarget,
-          callData: call.callData,
-        };
-      })
+      this.mapCallContextToMatchContractFormat(calls)
     )) as AggregateResponse;
+  }
+
+  /**
+   * Map call contract to match contract format
+   * @param calls The calls context
+   */
+  private mapCallContextToMatchContractFormat(
+    calls: CallContext[]
+  ): Array<{
+    target: string;
+    callData: string;
+  }> {
+    return calls.map((call) => {
+      return {
+        target: call.contractTarget,
+        callData: call.callData,
+      };
+    });
   }
 
   /**
