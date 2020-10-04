@@ -188,12 +188,17 @@ export class Multicall {
   private async getEthersNetworkId(
     ethersSignerOrProvider: ethers.Signer | ethers.providers.Provider
   ): Promise<Networks> {
-    if ((ethersSignerOrProvider as ethers.Signer).provider) {
-      const network = await (ethersSignerOrProvider as ethers.Signer).provider!.getNetwork();
-      return network.chainId;
+    if ((ethersSignerOrProvider as ethers.Signer)._isSigner) {
+      const signer = ethersSignerOrProvider as ethers.Signer;
+      if (!signer.provider) {
+        throw new Error('Your ethers signer MUST have a provider defined');
+      }
+
+      return (await signer.provider.getNetwork()).chainId;
     } else {
-      const network = await (ethersSignerOrProvider as ethers.providers.Provider).getNetwork();
-      return network.chainId;
+      return (
+        await (ethersSignerOrProvider as ethers.providers.Provider).getNetwork()
+      ).chainId;
     }
   }
 
