@@ -57,7 +57,7 @@ export class Multicall {
 
     throw new Error(
       // tslint:disable-next-line: max-line-length
-      'Your options passed in our incorrect they need to match either `MulticallOptionsEthers`, `MulticallOptionsWeb3` or `MulticallOptionsNetwork` interfaces'
+      'Your options passed in our incorrect they need to match either `MulticallOptionsEthers`, `MulticallOptionsWeb3` or `MulticallOptionsCustomJsonRpcProvider` interfaces'
     );
   }
 
