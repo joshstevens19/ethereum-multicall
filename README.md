@@ -91,13 +91,13 @@ console.log(results);
             abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
             calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
           },
-          callsReturnContext: {
+          callsReturnContext: [{
               returnValues: [{ amounts: BigNumber }]
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
               methodParameters: [42]
-          }
+          }]
       },
       testContract2: {
           originalContractCallContext:  {
@@ -106,13 +106,13 @@ console.log(results);
             abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
             calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
           },
-          callsReturnContext: {
+          callsReturnContext: [{
               returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }]
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
               methodParameters: [42]
-          }
+          }]
       }
   },
   blockNumber: 10994677
@@ -161,13 +161,13 @@ console.log(results);
             abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
             calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
           },
-          callsReturnContext: {
+          callsReturnContext: [{
               returnValues: [{ amounts: BigNumber }]
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
               methodParameters: [42]
-          }
+          }]
       },
       testContract2: {
           originalContractCallContext:  {
@@ -176,13 +176,13 @@ console.log(results);
             abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
             calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
           },
-          callsReturnContext: {
+          callsReturnContext: [{
               returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }]
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
               methodParameters: [42]
-          }
+          }]
       }
   },
   blockNumber: 10994677
@@ -228,13 +228,13 @@ console.log(results);
             abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
             calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
           },
-          callsReturnContext: {
+          callsReturnContext: [{
               returnValues: [{ amounts: BigNumber }]
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
               methodParameters: [42]
-          }
+          }]
       },
       testContract2: {
           originalContractCallContext:  {
@@ -243,13 +243,13 @@ console.log(results);
             abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
             calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
           },
-          callsReturnContext: {
+          callsReturnContext: [{
               returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }]
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
               methodParameters: [42]
-          }
+          }]
       }
   },
   blockNumber: 10994677
@@ -279,3 +279,8 @@ const multicall = new Multicall({
 Please raise any issues in the below link.
 
 https://github.com/joshstevens19/ethereum-multicall/issues
+
+TO FIX BEFORE PUBLISH:
+
+- Allow call to pass in a single without forcing array
+- Ability to type cast the references
