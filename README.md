@@ -279,7 +279,3 @@ const multicall = new Multicall({
 Please raise any issues in the below link.
 
 https://github.com/joshstevens19/ethereum-multicall/issues
-
-TO FIX BEFORE PUBLISH:
-
-- Ability to type cast the references
