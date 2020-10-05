@@ -39,7 +39,11 @@ const ethereumMulticall = require('ethereum-multicall');
 ### JavaScript (ES6) / TypeScript
 
 ```js
-import { Multicall, CallReturnContext } from 'ethereum-multicall';
+import {
+  Multicall,
+  ContractCallResults,
+  ContractCallContext,
+} from 'ethereum-multicall';
 ```
 
 ### ethers usage example
