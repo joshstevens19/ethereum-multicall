@@ -52,21 +52,14 @@ import {
   ContractCallResults,
   ContractCallContext,
 } from 'ethereum-multicall';
+import { ethers } from 'ethers';
 
-const ethToUsdtToFunRoute = [
-  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-  '0xc8Cc5c8db49d3a556Bf64a5C4b3Ae9fF862aC6aF',
-];
-
-let privateKey =
-  '0x0123456789012345678901234567890123456789012345678901234567890123';
-let wallet = new ethers.Wallet(privateKey);
-
-// you can use any ether js provider method here up to you
 let provider = ethers.getDefaultProvider();
 
-const multicall = new Multicall({ ethersProvider: provider });
+// you can use any ethers provider context here this example is
+// just shows passing in a default provider, ethers hold providers in
+// other context like wallet, signer etc all can be passed in as well.
+const multicall = new Multicall({ ethersProvider: wallet.provider });
 
 const contractCallContext: ContractCallContext[] = [
     {
