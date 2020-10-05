@@ -1,3 +1,6 @@
+[![npm version](https://badge.fury.io/js/ethereum-multicall.svg)](https://badge.fury.io/js/ethereum-multicall)
+![downloads](https://img.shields.io/npm/dw/ethereum-multicall)
+
 # ethereum-multicall
 
 ethereum-multicall is a lightweight library for interacting with the [multicall](https://github.com/makerdao/multicall/blob/master/src/Multicall.sol) smart contract.
