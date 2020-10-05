@@ -1,5 +1,5 @@
 export interface AggregateResponse {
-  blockNumber: string;
+  blockNumber: number;
   results: Array<{
     contractContextIndex: number;
     methodResults: Array<{

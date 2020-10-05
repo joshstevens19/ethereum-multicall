@@ -1,4 +1,6 @@
+import { BigNumber } from 'ethers/lib/ethers';
+
 export interface AggregateContractResponse {
-  blockNumber: string;
+  blockNumber: BigNumber;
   returnData: string[];
 }

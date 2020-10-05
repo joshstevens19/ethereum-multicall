@@ -52,14 +52,17 @@ export class Multicall {
   ) {
     if ((this._options as MulticallOptionsWeb3).web3Instance) {
       this._executionType = ExecutionType.web3;
+      return;
     }
 
     if ((this._options as MulticallOptionsEthers).ethersProvider) {
       this._executionType = ExecutionType.ethers;
+      return;
     }
 
     if ((this._options as MulticallOptionsCustomJsonRpcProvider).nodeUrl) {
       this._executionType = ExecutionType.customHttp;
+      return;
     }
 
     throw new Error(
@@ -165,7 +168,7 @@ export class Multicall {
     for (let contract = 0; contract < contractCallContexts.length; contract++) {
       const contractContext = contractCallContexts[contract];
       const executingInterface = new ethers.utils.Interface(
-        contractContext.abi.toString()
+        JSON.stringify(contractContext.abi)
       );
 
       for (let method = 0; method < contractContext.calls.length; method++) {
@@ -233,9 +236,10 @@ export class Multicall {
     calls: AggregateCallContext[]
   ): Promise<AggregateResponse> {
     const web3 = this.getTypedOptions<MulticallOptionsWeb3>().web3Instance;
+    const networkId = await web3.eth.net.getId();
     const contract = web3.eth.Contract(
       this.ABI,
-      this.getContractBasedOnNetwork(web3.eth.net.getId)
+      this.getContractBasedOnNetwork(networkId)
     );
 
     const contractResponse = (await contract.methods
@@ -294,11 +298,11 @@ export class Multicall {
     calls: AggregateCallContext[]
   ): AggregateResponse {
     const aggregateResponse: AggregateResponse = {
-      blockNumber: contractResponse.blockNumber,
+      blockNumber: contractResponse.blockNumber.toNumber(),
       results: [],
     };
 
-    for (let i = 0; contractResponse.returnData.length > 0; i++) {
+    for (let i = 0; i < contractResponse.returnData.length; i++) {
       const existingResponse = aggregateResponse.results.find(
         (c) => c.contractContextIndex === calls[i].contractContextIndex
       );

@@ -1,4 +1,3 @@
-import { AbiItem } from './abi-item';
 import { CallContext } from './call-context';
 
 // https://github.com/ethers-io/ethers.js/issues/211
@@ -17,7 +16,8 @@ export interface ContractCallContext {
   /**
    * The abi for the contract
    */
-  abi: AbiItem[];
+  // tslint:disable-next-line: no-any
+  abi: any[];
 
   /**
    * All the calls you want to do for this contract
