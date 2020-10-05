@@ -1,7 +1,8 @@
 import { CallContext } from './call-context';
 
 export interface CallReturnContext extends CallContext {
-  returnValues: Result;
+  // tslint:disable-next-line: no-any
+  returnValues: any[];
   /**
    * This stats if it could decode the result or not
    */

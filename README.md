@@ -282,5 +282,4 @@ https://github.com/joshstevens19/ethereum-multicall/issues
 
 TO FIX BEFORE PUBLISH:
 
-- Allow call to pass in a single without forcing array
 - Ability to type cast the references

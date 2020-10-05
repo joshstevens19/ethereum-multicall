@@ -130,7 +130,8 @@ export class Multicall {
 
           returnObjectResult.callsReturnContext.push(
             Utils.deepClone<CallReturnContext>({
-              returnValues: decodedReturnValue,
+              // ethers put the result of the decode in an array
+              returnValues: decodedReturnValue[0],
               decoded: true,
               reference: originalContractCallMethodContext.reference,
               methodName: originalContractCallMethodContext.methodName,
