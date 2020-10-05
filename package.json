@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "npm test",
-    "gen-multicall-abi": "abi-types-generator ./src/ABI/multicall-abi.json --output=./src/ABI/types --name=multicall --provider=ethers"
+    "gen-multicall-abi": "abi-types-generator ./src/ABI/multicall-abi.json --output=./src/ABI/types --name=multicall --provider=ethers",
+    "prepublishOnly": "tsc",
+    "publish": "npm publish --access public"
   },
   "author": "joshstevens19@hotmail.co.uk",
   "license": "ISC",
