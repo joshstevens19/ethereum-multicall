@@ -2,13 +2,20 @@ import { ethers } from 'ethers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import { ExecutionType, Networks } from './enums';
 import {
+  AbiItem,
+  AbiOutput,
+  AggregateCallContext,
+  AggregateContractResponse,
   AggregateResponse,
-  CallContext,
   CallReturnContext,
+  ContractCallContext,
+  ContractCallResults,
+  ContractCallReturnContext,
   MulticallOptionsCustomJsonRpcProvider,
   MulticallOptionsEthers,
   MulticallOptionsWeb3,
 } from './models';
+import { Utils } from './utils';
 
 export class Multicall {
   private readonly ABI = [
@@ -47,7 +54,7 @@ export class Multicall {
       this._executionType = ExecutionType.web3;
     }
 
-    if ((this._options as MulticallOptionsEthers).ethersSignerOrProvider) {
+    if ((this._options as MulticallOptionsEthers).ethersProvider) {
       this._executionType = ExecutionType.ethers;
     }
 
@@ -66,38 +73,147 @@ export class Multicall {
    * @param calls The calls
    */
   public async call(
-    calls: CallContext[]
-  ): Promise<{ [key: string]: CallReturnContext }> {
-    const result = await this.execute(calls);
+    contractCallContexts: ContractCallContext[]
+  ): Promise<ContractCallResults> {
+    const aggregateResponse = await this.execute(
+      this.buildAggregateCallContext(contractCallContexts)
+    );
 
-    const returnObject: { [key: string]: CallReturnContext } = {};
+    const returnObject: ContractCallResults = {
+      results: {},
+      blockNumber: aggregateResponse.blockNumber,
+    };
 
-    for (let i = 0; i < result.returnData.length; i++) {
-      const callMatch = calls[i];
-      if (callMatch.outputTypes) {
-        returnObject[callMatch.reference] = {
-          returnValue: defaultAbiCoder.decode(
-            callMatch.outputTypes,
-            result.returnData[i]
-          ),
-          callMatchedTo: calls[i],
-        };
-      } else {
-        returnObject[callMatch.reference] = {
-          returnValue: result.returnData[i],
-          callMatchedTo: calls[i],
-        };
+    for (
+      let response = 0;
+      response < aggregateResponse.results.length;
+      response++
+    ) {
+      const contractCallsResults = aggregateResponse.results[response];
+      const originalContractCallContext =
+        contractCallContexts[contractCallsResults.contractContextIndex];
+
+      const returnObjectResult: ContractCallReturnContext = {
+        originalContractCallContext: Utils.deepClone(
+          originalContractCallContext
+        ),
+        callsReturnContext: [],
+      };
+
+      for (
+        let method = 0;
+        method < contractCallsResults.methodResults.length;
+        method++
+      ) {
+        const methodContext = contractCallsResults.methodResults[method];
+        const originalContractCallMethodContext =
+          originalContractCallContext.calls[methodContext.contractMethodIndex];
+
+        const outputTypes = this.findOutputTypesFromAbi(
+          originalContractCallContext.abi,
+          originalContractCallMethodContext.methodName
+        );
+
+        if (outputTypes && outputTypes.length > 0) {
+          const decodedReturnValue = defaultAbiCoder.decode(
+            // tslint:disable-next-line: no-any
+            outputTypes as any,
+            methodContext.returnData
+          );
+
+          returnObjectResult.callsReturnContext.push(
+            Utils.deepClone<CallReturnContext>({
+              returnValues: decodedReturnValue,
+              decoded: true,
+              reference: originalContractCallMethodContext.reference,
+              methodName: originalContractCallMethodContext.methodName,
+              methodParameters:
+                originalContractCallMethodContext.methodParameters,
+            })
+          );
+        } else {
+          returnObjectResult.callsReturnContext.push(
+            Utils.deepClone<CallReturnContext>({
+              returnValues: methodContext.returnData,
+              decoded: false,
+              reference: originalContractCallMethodContext.reference,
+              methodName: originalContractCallMethodContext.methodName,
+              methodParameters:
+                originalContractCallMethodContext.methodParameters,
+            })
+          );
+        }
       }
+
+      returnObject.results[
+        returnObjectResult.originalContractCallContext.reference
+      ] = returnObjectResult;
     }
 
     return returnObject;
   }
 
   /**
+   * Build aggregate call context
+   * @param contractCallContexts The contract call contexts
+   */
+  private buildAggregateCallContext(
+    contractCallContexts: ContractCallContext[]
+  ): AggregateCallContext[] {
+    const aggregateCallContext: AggregateCallContext[] = [];
+
+    for (let contract = 0; contract < contractCallContexts.length; contract++) {
+      const contractContext = contractCallContexts[contract];
+      const executingInterface = new ethers.utils.Interface(
+        contractContext.abi.toString()
+      );
+
+      for (let method = 0; method < contractContext.calls.length; method++) {
+        // https://github.com/ethers-io/ethers.js/issues/211
+        const methodContext = contractContext.calls[method];
+        // tslint:disable-next-line: no-unused-expression
+        const encodedData = executingInterface.encodeFunctionData(
+          methodContext.methodName,
+          methodContext.methodParameters
+        );
+
+        aggregateCallContext.push({
+          contractContextIndex: Utils.deepClone<number>(contract),
+          contractMethodIndex: Utils.deepClone<number>(method),
+          target: contractContext.contractAddress,
+          encodedData,
+        });
+      }
+    }
+
+    return aggregateCallContext;
+  }
+
+  /**
+   * Find output types from abi
+   * @param abi The abi
+   * @param methodName The method name
+   */
+  private findOutputTypesFromAbi(
+    abi: AbiItem[],
+    methodName: string
+  ): AbiOutput[] | undefined {
+    for (let i = 0; i < abi.length; i++) {
+      if (abi[i].name === methodName) {
+        return abi[i].outputs;
+      }
+    }
+
+    return undefined;
+  }
+
+  /**
    * Execute the multicall contract call
    * @param calls The calls
    */
-  private async execute(calls: CallContext[]): Promise<AggregateResponse> {
+  private async execute(
+    calls: AggregateCallContext[]
+  ): Promise<AggregateResponse> {
     switch (this._executionType) {
       case ExecutionType.web3:
         return await this.executeWithWeb3(calls);
@@ -114,7 +230,7 @@ export class Multicall {
    * @param calls The calls context
    */
   private async executeWithWeb3(
-    calls: CallContext[]
+    calls: AggregateCallContext[]
   ): Promise<AggregateResponse> {
     const web3 = this.getTypedOptions<MulticallOptionsWeb3>().web3Instance;
     const contract = web3.eth.Contract(
@@ -122,9 +238,11 @@ export class Multicall {
       this.getContractBasedOnNetwork(web3.eth.net.getId)
     );
 
-    return (await contract.methods
+    const contractResponse = (await contract.methods
       .aggregate(this.mapCallContextToMatchContractFormat(calls))
-      .call()) as AggregateResponse;
+      .call()) as AggregateContractResponse;
+
+    return this.buildUpAggregateResponse(contractResponse, calls);
   }
 
   /**
@@ -132,35 +250,77 @@ export class Multicall {
    * @param calls The calls
    */
   private async executeWithEthersOrCustom(
-    calls: CallContext[]
+    calls: AggregateCallContext[]
   ): Promise<AggregateResponse> {
-    let ethersSignerOrProvider = this.getTypedOptions<MulticallOptionsEthers>()
-      .ethersSignerOrProvider;
+    let ethersProvider = this.getTypedOptions<MulticallOptionsEthers>()
+      .ethersProvider;
 
-    if (!ethersSignerOrProvider) {
+    if (!ethersProvider) {
       const customProvider = this.getTypedOptions<
         MulticallOptionsCustomJsonRpcProvider
       >();
       if (customProvider.nodeUrl) {
-        ethersSignerOrProvider = new ethers.providers.JsonRpcProvider(
+        ethersProvider = new ethers.providers.JsonRpcProvider(
           customProvider.nodeUrl
         );
       } else {
-        ethersSignerOrProvider = ethers.getDefaultProvider();
+        ethersProvider = ethers.getDefaultProvider();
       }
     }
 
-    const network = await this.getEthersNetworkId(ethersSignerOrProvider);
+    const network = await ethersProvider.getNetwork();
 
     const contract = new ethers.Contract(
-      this.getContractBasedOnNetwork(network),
+      this.getContractBasedOnNetwork(network.chainId),
       this.ABI,
-      ethersSignerOrProvider
+      ethersProvider
     );
 
-    return (await contract.aggregate(
+    const contractResponse = (await contract.aggregate(
       this.mapCallContextToMatchContractFormat(calls)
-    )) as AggregateResponse;
+    )) as AggregateContractResponse;
+
+    return this.buildUpAggregateResponse(contractResponse, calls);
+  }
+
+  /**
+   * Build up the aggregated response from the contract response mapping
+   * metadata from the calls
+   * @param contractResponse The contract response
+   * @param calls The calls
+   */
+  private buildUpAggregateResponse(
+    contractResponse: AggregateContractResponse,
+    calls: AggregateCallContext[]
+  ): AggregateResponse {
+    const aggregateResponse: AggregateResponse = {
+      blockNumber: contractResponse.blockNumber,
+      results: [],
+    };
+
+    for (let i = 0; contractResponse.returnData.length > 0; i++) {
+      const existingResponse = aggregateResponse.results.find(
+        (c) => c.contractContextIndex === calls[i].contractContextIndex
+      );
+      if (existingResponse) {
+        existingResponse.methodResults.push({
+          returnData: contractResponse.returnData[i],
+          contractMethodIndex: calls[i].contractMethodIndex,
+        });
+      } else {
+        aggregateResponse.results.push({
+          methodResults: [
+            {
+              returnData: contractResponse.returnData[i],
+              contractMethodIndex: calls[i].contractMethodIndex,
+            },
+          ],
+          contractContextIndex: calls[i].contractContextIndex,
+        });
+      }
+    }
+
+    return aggregateResponse;
   }
 
   /**
@@ -168,38 +328,17 @@ export class Multicall {
    * @param calls The calls context
    */
   private mapCallContextToMatchContractFormat(
-    calls: CallContext[]
+    calls: AggregateCallContext[]
   ): Array<{
     target: string;
     callData: string;
   }> {
     return calls.map((call) => {
       return {
-        target: call.contractTarget,
-        callData: call.callData,
+        target: call.target,
+        callData: call.encodedData,
       };
     });
-  }
-
-  /**
-   * Get ethers network id
-   * @param ethersSignerOrProvider Ethers signer or provider
-   */
-  private async getEthersNetworkId(
-    ethersSignerOrProvider: ethers.Signer | ethers.providers.Provider
-  ): Promise<Networks> {
-    if ((ethersSignerOrProvider as ethers.Signer)._isSigner) {
-      const signer = ethersSignerOrProvider as ethers.Signer;
-      if (!signer.provider) {
-        throw new Error('Your ethers signer MUST have a provider defined');
-      }
-
-      return (await signer.provider.getNetwork()).chainId;
-    } else {
-      return (
-        await (ethersSignerOrProvider as ethers.providers.Provider).getNetwork()
-      ).chainId;
-    }
   }
 
   /**

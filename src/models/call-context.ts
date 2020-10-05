@@ -3,16 +3,15 @@ export interface CallContext {
    * Reference to this call context
    */
   reference: string;
+
   /**
-   * The contract execution target
+   * your contract method name
    */
-  contractTarget: string;
+  methodName: string;
+
   /**
-   * Your encoded data
+   * Method parameters you want it to pass in
    */
-  callData: string;
-  /**
-   * The output types from the ABI, if this is blank it will not decode the result
-   */
-  outputTypes?: string[];
+  // tslint:disable-next-line: no-any
+  methodParameters: any[];
 }

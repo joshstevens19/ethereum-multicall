@@ -1,4 +1,11 @@
 export interface AggregateResponse {
   blockNumber: string;
-  returnData: string[];
+  results: Array<{
+    contractContextIndex: number;
+    methodResults: Array<{
+      // tslint:disable-next-line: no-any
+      returnData: any;
+      contractMethodIndex: number;
+    }>;
+  }>;
 }

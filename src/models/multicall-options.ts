@@ -1,5 +1,4 @@
 import { Provider } from '@ethersproject/providers';
-import { Signer } from 'ethers';
 
 interface MulticallOptionsBase {
   multicallCustomContractAddress?: string;
@@ -12,7 +11,7 @@ export interface MulticallOptionsWeb3 extends MulticallOptionsBase {
 }
 
 export interface MulticallOptionsEthers extends MulticallOptionsBase {
-  ethersSignerOrProvider: Signer | Provider;
+  ethersProvider: Provider;
 }
 
 export interface MulticallOptionsCustomJsonRpcProvider
