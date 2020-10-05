@@ -76,8 +76,12 @@ export class Multicall {
    * @param calls The calls
    */
   public async call(
-    contractCallContexts: ContractCallContext[]
+    contractCallContexts: ContractCallContext[] | ContractCallContext
   ): Promise<ContractCallResults> {
+    if (!Array.isArray(contractCallContexts)) {
+      contractCallContexts = [contractCallContexts];
+    }
+
     const aggregateResponse = await this.execute(
       this.buildAggregateCallContext(contractCallContexts)
     );
