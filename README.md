@@ -48,8 +48,6 @@ import {
 
 ### ethers usage example
 
-#### Typescript
-
 ```ts
 import {
   Multicall,
@@ -119,6 +117,165 @@ console.log(results);
   },
   blockNumber: 10994677
 }
-
-.. full doc to come.
 ```
+
+### web3 usage example
+
+```ts
+import {
+  Multicall,
+  ContractCallResults,
+  ContractCallContext,
+} from 'ethereum-multicall';
+import Web3 from 'web3';
+
+const web3 = new Web3('https://some.local-or-remote.node:8546');
+
+const multicall = new Multicall({ web3Instance: web3 });
+
+const contractCallContext: ContractCallContext[] = [
+    {
+        reference: 'testContract',
+        contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+        abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ];
+        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+    },
+    {
+        reference: 'testContract2',
+        contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+        abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256', name: "path", "type": "address[]" }] } ];
+        calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+    }
+];
+
+const results: ContractCallResults = await multicall.call(contractCallContext);
+console.log(results);
+
+// results:
+{
+  results: {
+      testContract: {
+          originalContractCallContext:  {
+            reference: 'testContract',
+            contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+            abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+            calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+          },
+          callsReturnContext: {
+              returnValues: [{ amounts: BigNumber }]
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42]
+          }
+      },
+      testContract2: {
+          originalContractCallContext:  {
+            reference: 'testContract2',
+            contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+            abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
+            calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+          },
+          callsReturnContext: {
+              returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }]
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42]
+          }
+      }
+  },
+  blockNumber: 10994677
+}
+```
+
+### custom jsonrpc provider usage example
+
+```ts
+import {
+  Multicall,
+  ContractCallResults,
+  ContractCallContext,
+} from 'ethereum-multicall';
+
+const multicall = new Multicall({ nodeUrl: 'https://some.local-or-remote.node:8546' });
+
+const contractCallContext: ContractCallContext[] = [
+    {
+        reference: 'testContract',
+        contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+        abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ];
+        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+    },
+    {
+        reference: 'testContract2',
+        contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+        abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256', name: "path", "type": "address[]" }] } ];
+        calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+    }
+];
+
+const results: ContractCallResults = await multicall.call(contractCallContext);
+console.log(results);
+
+// results:
+{
+  results: {
+      testContract: {
+          originalContractCallContext:  {
+            reference: 'testContract',
+            contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+            abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+            calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+          },
+          callsReturnContext: {
+              returnValues: [{ amounts: BigNumber }]
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42]
+          }
+      },
+      testContract2: {
+          originalContractCallContext:  {
+            reference: 'testContract2',
+            contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+            abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
+            calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+          },
+          callsReturnContext: {
+              returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }]
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42]
+          }
+      }
+  },
+  blockNumber: 10994677
+}
+```
+
+### Multicall contracts
+
+by default it looks at your network from the provider you passed in and makes the contract address to that:
+
+- mainnet > '0xeefba1e63905ef1d7acba5a8513c70307c1ce441'
+- kovan > '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a'
+- rinkeby > '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821'
+- ropsten > '0x53c43764255c17bd724f74c4ef150724ac50a3ed'
+
+If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
+
+```ts
+const multicall = new Multicall({
+  multicallCustomContractAddress: '0x5Eb3fa2DFECdDe21C950813C665E9364fa609bD2',
+  // your rest of your config depending on the provider your using.
+});
+```
+
+## Issues
+
+Please raise any issues in the below link.
+
+https://github.com/joshstevens19/ethereum-multicall/issues
