@@ -13,7 +13,7 @@ import {
   ContractCallReturnContext,
   MulticallOptionsCustomJsonRpcProvider,
   MulticallOptionsEthers,
-  MulticallOptionsWeb3,
+  MulticallOptionsWeb3
 } from './models';
 import { Utils } from './utils';
 
@@ -285,7 +285,7 @@ export class Multicall {
       ethersProvider
     );
 
-    const contractResponse = (await contract.aggregate(
+    const contractResponse = (await contract.callStatic.aggregate(
       this.mapCallContextToMatchContractFormat(calls)
     )) as AggregateContractResponse;
 
