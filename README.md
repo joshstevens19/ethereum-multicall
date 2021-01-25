@@ -66,12 +66,16 @@ let provider = ethers.getDefaultProvider();
 // other context like wallet, signer etc all can be passed in as well.
 const multicall = new Multicall({ ethersProvider: wallet.provider });
 
-const contractCallContext: ContractCallContext[] = [
+const contractCallContext: ContractCallContext<{extraContext: string, foo4: boolean}>[] = [
     {
         reference: 'testContract',
         contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
         abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
-        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }],
+        context: {
+          extraContext: 'extraContext',
+          foo4: true
+        }
     },
     {
         reference: 'testContract2',
@@ -178,6 +182,101 @@ console.log(results);
             contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
             abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
             calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+          },
+          callsReturnContext: [{
+              returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }],
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42]
+          }]
+      }
+  },
+  blockNumber: 10994677
+}
+```
+
+### passing extra context to the call
+
+If you want store any context or state so you don't need to look back over arrays once you got the result back. it can be stored in `context` within `ContractCallContext`.
+
+```ts
+import {
+  Multicall,
+  ContractCallResults,
+  ContractCallContext,
+} from 'ethereum-multicall';
+import { ethers } from 'ethers';
+
+let provider = ethers.getDefaultProvider();
+
+// you can use any ethers provider context here this example is
+// just shows passing in a default provider, ethers hold providers in
+// other context like wallet, signer etc all can be passed in as well.
+const multicall = new Multicall({ ethersProvider: wallet.provider });
+
+// this is showing you having the same context for all `ContractCallContext` but you can also make this have
+// different context for each `ContractCallContext`, as `ContractCallContext<TContext>` takes generic `TContext`.
+const contractCallContext: ContractCallContext<{extraContext: string, foo4: boolean}>[] = [
+    {
+        reference: 'testContract',
+        contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+        abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }],
+        // pass it in here!
+        context: {
+          extraContext: 'extraContext',
+          foo4: true
+        }
+    },
+    {
+        reference: 'testContract2',
+        contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+        abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256', name: "path", "type": "address[]" }] } ],
+        calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }],
+         // pass it in here!
+        context: {
+          extraContext: 'extraContext2',
+          foo4: false
+        }
+    }
+];
+
+const results: ContractCallResults = await multicall.call(contractCallContext);
+console.log(results);
+
+// results:
+{
+  results: {
+      testContract: {
+          originalContractCallContext:  {
+            reference: 'testContract',
+            contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+            abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+            calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }],
+            context: {
+                extraContext: 'extraContext',
+                foo4: true
+            }
+          },
+          callsReturnContext: [{
+              returnValues: [{ amounts: BigNumber }],
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42]
+          }]
+      },
+      testContract2: {
+          originalContractCallContext:  {
+            reference: 'testContract2',
+            contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+            abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
+            calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }],
+            context: {
+                extraContext: 'extraContext2',
+                foo4: false
+            }
           },
           callsReturnContext: [{
               returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }],

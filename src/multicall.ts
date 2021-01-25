@@ -13,7 +13,7 @@ import {
   ContractCallReturnContext,
   MulticallOptionsCustomJsonRpcProvider,
   MulticallOptionsEthers,
-  MulticallOptionsWeb3
+  MulticallOptionsWeb3,
 } from './models';
 import { Utils } from './utils';
 
@@ -122,7 +122,7 @@ export class Multicall {
         );
 
         if (outputTypes && outputTypes.length > 0) {
-          const decodedReturnValue = defaultAbiCoder.decode(
+          const decodedReturnValues = defaultAbiCoder.decode(
             // tslint:disable-next-line: no-any
             outputTypes as any,
             methodContext.returnData
@@ -130,8 +130,7 @@ export class Multicall {
 
           returnObjectResult.callsReturnContext.push(
             Utils.deepClone<CallReturnContext>({
-              // ethers put the result of the decode in an array
-              returnValues: decodedReturnValue[0],
+              returnValues: this.formatReturnValues(decodedReturnValues),
               decoded: true,
               reference: originalContractCallMethodContext.reference,
               methodName: originalContractCallMethodContext.methodName,
@@ -159,6 +158,22 @@ export class Multicall {
     }
 
     return returnObject;
+  }
+
+  /**
+   * Format return values so its always an array
+   * @param decodedReturnValues The decoded return values
+   */
+  // tslint:disable-next-line: no-any
+  private formatReturnValues(decodedReturnValues: any): any[] {
+    // ethers put the result of the decode in an array sometimes.
+    const decodedReturnResults = decodedReturnValues[0];
+
+    if (Array.isArray(decodedReturnResults)) {
+      return decodedReturnResults;
+    }
+
+    return [decodedReturnResults];
   }
 
   /**
