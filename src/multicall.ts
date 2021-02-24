@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import { ExecutionType, Networks } from './enums';
 import {
@@ -257,7 +257,7 @@ export class Multicall {
   ): Promise<AggregateResponse> {
     const web3 = this.getTypedOptions<MulticallOptionsWeb3>().web3Instance;
     const networkId = await web3.eth.net.getId();
-    const contract = web3.eth.Contract(
+    const contract = new web3.eth.Contract(
       this.ABI,
       this.getContractBasedOnNetwork(networkId)
     );
@@ -265,6 +265,8 @@ export class Multicall {
     const contractResponse = (await contract.methods
       .aggregate(this.mapCallContextToMatchContractFormat(calls))
       .call()) as AggregateContractResponse;
+
+    contractResponse.blockNumber = BigNumber.from(contractResponse.blockNumber);
 
     return this.buildUpAggregateResponse(contractResponse, calls);
   }
