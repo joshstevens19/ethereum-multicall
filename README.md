@@ -9,6 +9,15 @@ Multicall allows multiple smart contract constant function calls to be grouped i
 
 ethereum-multicall is fully written in typescript so has full compile time support. The motivation of this package was to expose a super simple and easy to understand interface for you to take the full benefits of the multicalls. Also to not being opinionated on how you use it, you can use it with web3, ethers or even pass in a custom nodeUrl and we do it for you. This package takes care of the decoding for you but at the same time if you dont want it to you can turn that part off.
 
+## Supports
+
+- mainnet
+- kovan
+- rinkeby
+- ropsten
+- binance smart chain
+- custom network with your own instance of multicall deployed
+
 ## Installation
 
 ### npm:
@@ -366,6 +375,7 @@ by default it looks at your network from the provider you passed in and makes th
 - kovan > '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a'
 - rinkeby > '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821'
 - ropsten > '0x53c43764255c17bd724f74c4ef150724ac50a3ed'
+- binance smart chain > '0x949f41e8a6197f2a19854f813fd361bab9aa7d2d'
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 
