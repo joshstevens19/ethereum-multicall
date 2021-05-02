@@ -173,6 +173,10 @@ export class Multicall {
       return decodedReturnResults;
     }
 
+    if (Array.isArray(decodedReturnValues)) {
+      return decodedReturnValues;
+    }
+
     return [decodedReturnResults];
   }
 
