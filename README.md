@@ -73,7 +73,7 @@ let provider = ethers.getDefaultProvider();
 // you can use any ethers provider context here this example is
 // just shows passing in a default provider, ethers hold providers in
 // other context like wallet, signer etc all can be passed in as well.
-const multicall = new Multicall({ ethersProvider: wallet.provider });
+const multicall = new Multicall({ ethersProvider: wallet.provider, tryAggregate: true });
 
 const contractCallContext: ContractCallContext<{extraContext: string, foo4: boolean}>[] = [
     {
@@ -112,7 +112,8 @@ console.log(results);
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
-              methodParameters: [42]
+              methodParameters: [42],
+              success: true
           }]
       },
       testContract2: {
@@ -127,7 +128,8 @@ console.log(results);
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
-              methodParameters: [42]
+              methodParameters: [42],
+              success: true
           }]
       }
   },
@@ -147,7 +149,7 @@ import Web3 from 'web3';
 
 const web3 = new Web3('https://some.local-or-remote.node:8546');
 
-const multicall = new Multicall({ web3Instance: web3 });
+const multicall = new Multicall({ web3Instance: web3, tryAggregate: true });
 
 const contractCallContext: ContractCallContext[] = [
     {
@@ -182,7 +184,8 @@ console.log(results);
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
-              methodParameters: [42]
+              methodParameters: [42],
+              success: true
           }]
       },
       testContract2: {
@@ -197,7 +200,8 @@ console.log(results);
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
-              methodParameters: [42]
+              methodParameters: [42],
+              success: true
           }]
       }
   },
@@ -222,7 +226,7 @@ let provider = ethers.getDefaultProvider();
 // you can use any ethers provider context here this example is
 // just shows passing in a default provider, ethers hold providers in
 // other context like wallet, signer etc all can be passed in as well.
-const multicall = new Multicall({ ethersProvider: wallet.provider });
+const multicall = new Multicall({ ethersProvider: wallet.provider, tryAggregate: true });
 
 // this is showing you having the same context for all `ContractCallContext` but you can also make this have
 // different context for each `ContractCallContext`, as `ContractCallContext<TContext>` takes generic `TContext`.
@@ -273,7 +277,8 @@ console.log(results);
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
-              methodParameters: [42]
+              methodParameters: [42],
+              success: true
           }]
       },
       testContract2: {
@@ -292,7 +297,87 @@ console.log(results);
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
-              methodParameters: [42]
+              methodParameters: [42],
+              success: true
+          }]
+      }
+  },
+  blockNumber: 10994677
+}
+```
+
+### try aggregate
+
+By default if you dont turn `tryAggregate` to true if 1 `eth_call` fails in your multicall the whole result will throw. If you turn `tryAggregate` to true it means if 1 of your `eth_call` methods fail it still return you the rest of the results. It will still be in the same order as you expect but you have a `success` boolean to check if it passed or failed.
+
+```ts
+import {
+  Multicall,
+  ContractCallResults,
+  ContractCallContext,
+} from 'ethereum-multicall';
+
+const multicall = new Multicall({ nodeUrl: 'https://some.local-or-remote.node:8546', tryAggregate: true });
+
+const contractCallContext: ContractCallContext[] = [
+    {
+        reference: 'testContract',
+        contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+        abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] }, { name: 'foo_fail', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }, { reference: 'fooCall_fail', methodName: 'foo_fail', methodParameters: [42] }]
+    },
+    {
+        reference: 'testContract2',
+        contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+        abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256', name: "path", "type": "address[]" }] } ],
+        calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+    }
+];
+
+const results: ContractCallResults = await multicall.call(contractCallContext);
+console.log(results);
+
+// results:
+{
+  results: {
+      testContract: {
+          originalContractCallContext:  {
+            reference: 'testContract',
+            contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+            abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] }, { name: 'foo_fail', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+             calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }, { reference: 'fooCall_fail', methodName: 'foo_fail', methodParameters: [42] }]
+          },
+          callsReturnContext: [{
+              returnValues: [{ amounts: BigNumber }],
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42],
+              success: true
+          },
+          {
+              returnValues: [],
+              decoded: false,
+              reference: 'fooCall_fail',
+              methodName: 'foo_fail',
+              methodParameters: [42],
+              success: false
+          }]
+      },
+      testContract2: {
+          originalContractCallContext:  {
+            reference: 'testContract2',
+            contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+            abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
+            calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+          },
+          callsReturnContext: [{
+              returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }],
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42],
+              success: true
           }]
       }
   },
@@ -309,7 +394,7 @@ import {
   ContractCallContext,
 } from 'ethereum-multicall';
 
-const multicall = new Multicall({ nodeUrl: 'https://some.local-or-remote.node:8546' });
+const multicall = new Multicall({ nodeUrl: 'https://some.local-or-remote.node:8546', tryAggregate: true });
 
 const contractCallContext: ContractCallContext[] = [
     {
@@ -344,7 +429,8 @@ console.log(results);
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
-              methodParameters: [42]
+              methodParameters: [42],
+              success: true
           }]
       },
       testContract2: {
@@ -359,7 +445,8 @@ console.log(results);
               decoded: true,
               reference: 'fooCall',
               methodName: 'foo',
-              methodParameters: [42]
+              methodParameters: [42],
+              success: true
           }]
       }
   },
@@ -371,17 +458,17 @@ console.log(results);
 
 by default it looks at your network from the provider you passed in and makes the contract address to that:
 
-- mainnet > '0xeefba1e63905ef1d7acba5a8513c70307c1ce441'
-- kovan > '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a'
-- rinkeby > '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821'
-- ropsten > '0x53c43764255c17bd724f74c4ef150724ac50a3ed'
-- binance smart chain > '0x949f41e8a6197f2a19854f813fd361bab9aa7d2d'
+- mainnet > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
+- kovan > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
+- rinkeby > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
+- ropsten > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
+- binance smart chain > '0xaf379c844f87a7b47ee6fe5e4a9720988eaea0af'
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 
 ```ts
 const multicall = new Multicall({
-  multicallCustomContractAddress: '0x5Eb3fa2DFECdDe21C950813C665E9364fa609bD2',
+  multicallCustomContractAddress: '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696',
   // your rest of your config depending on the provider your using.
 });
 ```

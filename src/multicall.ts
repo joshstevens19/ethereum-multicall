@@ -40,6 +40,64 @@ export class Multicall {
       stateMutability: 'nonpayable',
       type: 'function',
     },
+    {
+      inputs: [
+        {
+          internalType: 'bool',
+          name: 'requireSuccess',
+          type: 'bool',
+        },
+        {
+          components: [
+            {
+              internalType: 'address',
+              name: 'target',
+              type: 'address',
+            },
+            {
+              internalType: 'bytes',
+              name: 'callData',
+              type: 'bytes',
+            },
+          ],
+          internalType: 'struct Multicall2.Call[]',
+          name: 'calls',
+          type: 'tuple[]',
+        },
+      ],
+      name: 'tryBlockAndAggregate',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: 'blockNumber',
+          type: 'uint256',
+        },
+        {
+          internalType: 'bytes32',
+          name: 'blockHash',
+          type: 'bytes32',
+        },
+        {
+          components: [
+            {
+              internalType: 'bool',
+              name: 'success',
+              type: 'bool',
+            },
+            {
+              internalType: 'bytes',
+              name: 'returnData',
+              type: 'bytes',
+            },
+          ],
+          internalType: 'struct Multicall2.Result[]',
+          name: 'returnData',
+          type: 'tuple[]',
+        },
+      ],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
   ];
 
   private _executionType: ExecutionType;
@@ -121,11 +179,26 @@ export class Multicall {
           originalContractCallMethodContext.methodName
         );
 
+        if (this._options.tryAggregate && !methodContext.result.success) {
+          returnObjectResult.callsReturnContext.push(
+            Utils.deepClone<CallReturnContext>({
+              returnValues: [],
+              decoded: false,
+              reference: originalContractCallMethodContext.reference,
+              methodName: originalContractCallMethodContext.methodName,
+              methodParameters:
+                originalContractCallMethodContext.methodParameters,
+              success: false,
+            })
+          );
+          continue;
+        }
+
         if (outputTypes && outputTypes.length > 0) {
           const decodedReturnValues = defaultAbiCoder.decode(
             // tslint:disable-next-line: no-any
             outputTypes as any,
-            methodContext.returnData
+            this.getReturnDataFromResult(methodContext.result)
           );
 
           returnObjectResult.callsReturnContext.push(
@@ -136,17 +209,19 @@ export class Multicall {
               methodName: originalContractCallMethodContext.methodName,
               methodParameters:
                 originalContractCallMethodContext.methodParameters,
+              success: true,
             })
           );
         } else {
           returnObjectResult.callsReturnContext.push(
             Utils.deepClone<CallReturnContext>({
-              returnValues: methodContext.returnData,
+              returnValues: this.getReturnDataFromResult(methodContext.result),
               decoded: false,
               reference: originalContractCallMethodContext.reference,
               methodName: originalContractCallMethodContext.methodName,
               methodParameters:
                 originalContractCallMethodContext.methodParameters,
+              success: true,
             })
           );
         }
@@ -158,6 +233,19 @@ export class Multicall {
     }
 
     return returnObject;
+  }
+
+  /**
+   * Get return data from result
+   * @param result The result
+   */
+  // tslint:disable-next-line: no-any
+  private getReturnDataFromResult(result: any): any[] {
+    if (this._options.tryAggregate) {
+      return result.returnData;
+    }
+
+    return result;
   }
 
   /**
@@ -266,13 +354,30 @@ export class Multicall {
       this.getContractBasedOnNetwork(networkId)
     );
 
-    const contractResponse = (await contract.methods
-      .aggregate(this.mapCallContextToMatchContractFormat(calls))
-      .call()) as AggregateContractResponse;
+    if (this._options.tryAggregate) {
+      const contractResponse = (await contract.methods
+        .tryBlockAndAggregate(
+          false,
+          this.mapCallContextToMatchContractFormat(calls)
+        )
+        .call()) as AggregateContractResponse;
 
-    contractResponse.blockNumber = BigNumber.from(contractResponse.blockNumber);
+      contractResponse.blockNumber = BigNumber.from(
+        contractResponse.blockNumber
+      );
 
-    return this.buildUpAggregateResponse(contractResponse, calls);
+      return this.buildUpAggregateResponse(contractResponse, calls);
+    } else {
+      const contractResponse = (await contract.methods
+        .aggregate(this.mapCallContextToMatchContractFormat(calls))
+        .call()) as AggregateContractResponse;
+
+      contractResponse.blockNumber = BigNumber.from(
+        contractResponse.blockNumber
+      );
+
+      return this.buildUpAggregateResponse(contractResponse, calls);
+    }
   }
 
   /**
@@ -306,11 +411,20 @@ export class Multicall {
       ethersProvider
     );
 
-    const contractResponse = (await contract.callStatic.aggregate(
-      this.mapCallContextToMatchContractFormat(calls)
-    )) as AggregateContractResponse;
+    if (this._options.tryAggregate) {
+      const contractResponse = (await contract.callStatic.tryBlockAndAggregate(
+        false,
+        this.mapCallContextToMatchContractFormat(calls)
+      )) as AggregateContractResponse;
 
-    return this.buildUpAggregateResponse(contractResponse, calls);
+      return this.buildUpAggregateResponse(contractResponse, calls);
+    } else {
+      const contractResponse = (await contract.callStatic.aggregate(
+        this.mapCallContextToMatchContractFormat(calls)
+      )) as AggregateContractResponse;
+
+      return this.buildUpAggregateResponse(contractResponse, calls);
+    }
   }
 
   /**
@@ -334,14 +448,14 @@ export class Multicall {
       );
       if (existingResponse) {
         existingResponse.methodResults.push({
-          returnData: contractResponse.returnData[i],
+          result: contractResponse.returnData[i],
           contractMethodIndex: calls[i].contractMethodIndex,
         });
       } else {
         aggregateResponse.results.push({
           methodResults: [
             {
-              returnData: contractResponse.returnData[i],
+              result: contractResponse.returnData[i],
               contractMethodIndex: calls[i].contractMethodIndex,
             },
           ],
@@ -380,6 +494,7 @@ export class Multicall {
 
   /**
    * Get the contract based on the network
+   * @param tryAggregate The tryAggregate
    * @param network The network
    */
   private getContractBasedOnNetwork(network: Networks): string {
@@ -390,15 +505,15 @@ export class Multicall {
 
     switch (network) {
       case Networks.mainnet:
-        return '0xeefba1e63905ef1d7acba5a8513c70307c1ce441';
+        return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.kovan:
-        return '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a';
+        return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.rinkeby:
-        return '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821';
+        return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.ropsten:
-        return '0x53c43764255c17bd724f74c4ef150724ac50a3ed';
+        return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.bsc:
-        return '0x949f41e8a6197f2a19854f813fd361bab9aa7d2d';
+        return '0xaf379c844f87a7b47ee6fe5e4a9720988eaea0af';
       default:
         throw new Error(
           `Network - ${network} is not got a contract defined it only supports mainnet, kovan, rinkeby, bsc and ropsten`

@@ -3,9 +3,9 @@ export interface AggregateResponse {
   results: Array<{
     contractContextIndex: number;
     methodResults: Array<{
-      // tslint:disable-next-line: no-any
-      returnData: any;
       contractMethodIndex: number;
+      // tslint:disable-next-line: no-any
+      result: any;
     }>;
   }>;
 }

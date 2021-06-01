@@ -7,6 +7,12 @@ export interface CallReturnContext extends CallContext {
    * This stats if it could decode the result or not
    */
   decoded: boolean;
+
+  /**
+   * If this context was successful, this will always be try
+   * if you dont use the try aggregate logic
+   */
+  success: boolean;
 }
 
 // tslint:disable-next-line: no-any

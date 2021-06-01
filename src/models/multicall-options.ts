@@ -2,6 +2,7 @@ import { Provider } from '@ethersproject/providers';
 
 interface MulticallOptionsBase {
   multicallCustomContractAddress?: string;
+  tryAggregate?: boolean;
 }
 
 export interface MulticallOptionsWeb3 extends MulticallOptionsBase {
