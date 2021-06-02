@@ -4,4 +4,5 @@ export enum Networks {
   rinkeby = 4,
   bsc = 56,
   kovan = 42,
+  xdai = 100,
 }

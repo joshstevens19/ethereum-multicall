@@ -462,7 +462,8 @@ by default it looks at your network from the provider you passed in and makes th
 - kovan > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
 - rinkeby > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
 - ropsten > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
-- binance smart chain > '0xaf379c844f87a7b47ee6fe5e4a9720988eaea0af'
+- binance smart chain > '0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF'
+- xdai > '0x2325b72990D81892E0e09cdE5C80DD221F147F8B'
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 
