@@ -16,6 +16,7 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 - rinkeby
 - ropsten
 - binance smart chain
+- xdai
 - custom network with your own instance of multicall deployed
 
 ## Installation
