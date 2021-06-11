@@ -505,12 +505,10 @@ export class Multicall {
 
     switch (network) {
       case Networks.mainnet:
-        return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.kovan:
-        return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.rinkeby:
-        return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.ropsten:
+      case Networks.goerli:
         return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.bsc:
         return '0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF';

@@ -13,6 +13,7 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 
 - mainnet
 - kovan
+- görli
 - rinkeby
 - ropsten
 - binance smart chain
@@ -461,6 +462,7 @@ by default it looks at your network from the provider you passed in and makes th
 
 - mainnet > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
 - kovan > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
+- görli > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
 - rinkeby > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
 - ropsten > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
 - binance smart chain > '0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF'
