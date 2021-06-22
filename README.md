@@ -18,6 +18,8 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 - ropsten
 - binance smart chain
 - xdai
+- matic
+- mumbai
 - custom network with your own instance of multicall deployed
 
 ## Installation
@@ -467,6 +469,8 @@ by default it looks at your network from the provider you passed in and makes th
 - ropsten > '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
 - binance smart chain > '0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF'
 - xdai > '0x2325b72990D81892E0e09cdE5C80DD221F147F8B'
+- mumbai > '0x73f44534C4bCb557FDf03a04A7b25018d6FcacD6'
+- matic > '0x5F42C143026e65E25aa76829DbCD6D4F0C9De8ED'
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 

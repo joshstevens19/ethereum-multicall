@@ -6,4 +6,6 @@ export enum Networks {
   bsc = 56,
   kovan = 42,
   xdai = 100,
+  matic = 137,
+  mumbai = 80001,
 }
