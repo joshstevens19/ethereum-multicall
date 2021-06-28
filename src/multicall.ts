@@ -515,9 +515,9 @@ export class Multicall {
       case Networks.xdai:
         return '0x2325b72990D81892E0e09cdE5C80DD221F147F8B';
       case Networks.mumbai:
-        return '0x73f44534C4bCb557FDf03a04A7b25018d6FcacD6';
+        return '0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631';
       case Networks.matic:
-        return '0x5F42C143026e65E25aa76829DbCD6D4F0C9De8ED';
+        return '0x275617327c958bD06b5D6b871E7f491D76113dd8';
       default:
         throw new Error(
           `Network - ${network} is not got a contract defined it only supports mainnet, kovan, rinkeby, bsc and ropsten`
