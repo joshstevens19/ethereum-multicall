@@ -8,4 +8,5 @@ export enum Networks {
   xdai = 100,
   matic = 137,
   mumbai = 80001,
+  etherlite = 111,
 }
