@@ -77,7 +77,7 @@ let provider = ethers.getDefaultProvider();
 // you can use any ethers provider context here this example is
 // just shows passing in a default provider, ethers hold providers in
 // other context like wallet, signer etc all can be passed in as well.
-const multicall = new Multicall({ ethersProvider: wallet.provider, tryAggregate: true });
+const multicall = new Multicall({ ethersProvider: provider, tryAggregate: true });
 
 const contractCallContext: ContractCallContext<{extraContext: string, foo4: boolean}>[] = [
     {
@@ -230,7 +230,7 @@ let provider = ethers.getDefaultProvider();
 // you can use any ethers provider context here this example is
 // just shows passing in a default provider, ethers hold providers in
 // other context like wallet, signer etc all can be passed in as well.
-const multicall = new Multicall({ ethersProvider: wallet.provider, tryAggregate: true });
+const multicall = new Multicall({ ethersProvider: provider, tryAggregate: true });
 
 // this is showing you having the same context for all `ContractCallContext` but you can also make this have
 // different context for each `ContractCallContext`, as `ContractCallContext<TContext>` takes generic `TContext`.
@@ -462,17 +462,17 @@ console.log(results);
 
 by default it looks at your network from the provider you passed in and makes the contract address to that:
 
-| Network | Address |
-| ------- | ------- |
-| mainnet | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| kovan | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| görli | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| rinkeby | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| ropsten | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
+| Network             | Address                                      |
+| ------------------- | -------------------------------------------- |
+| mainnet             | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
+| kovan               | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
+| görli               | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
+| rinkeby             | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
+| ropsten             | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
 | binance smart chain | `0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF` |
-| xdai | `0x2325b72990D81892E0e09cdE5C80DD221F147F8B` |
-| mumbai | `0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631` |
-| matic | `0x275617327c958bD06b5D6b871E7f491D76113dd8` |
+| xdai                | `0x2325b72990D81892E0e09cdE5C80DD221F147F8B` |
+| mumbai              | `0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631` |
+| matic               | `0x275617327c958bD06b5D6b871E7f491D76113dd8` |
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 

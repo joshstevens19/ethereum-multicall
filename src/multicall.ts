@@ -254,15 +254,13 @@ export class Multicall {
    */
   // tslint:disable-next-line: no-any
   private formatReturnValues(decodedReturnValues: any): any[] {
-    // ethers put the result of the decode in an array sometimes.
-    const decodedReturnResults = decodedReturnValues[0];
+    let decodedReturnResults = decodedReturnValues;
+    if (decodedReturnValues.length === 1) {
+      decodedReturnResults = decodedReturnValues[0];
+    }
 
     if (Array.isArray(decodedReturnResults)) {
       return decodedReturnResults;
-    }
-
-    if (Array.isArray(decodedReturnValues)) {
-      return decodedReturnValues;
     }
 
     return [decodedReturnResults];
@@ -314,7 +312,7 @@ export class Multicall {
     methodName: string
   ): AbiOutput[] | undefined {
     for (let i = 0; i < abi.length; i++) {
-      if (abi[i].name === methodName) {
+      if (abi[i].name?.trim() === methodName.trim()) {
         return abi[i].outputs;
       }
     }
