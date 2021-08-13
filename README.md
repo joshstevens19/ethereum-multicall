@@ -469,7 +469,7 @@ by default it looks at your network from the provider you passed in and makes th
 | görli               | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
 | rinkeby             | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
 | ropsten             | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| binance smart chain | `0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF` |
+| binance smart chain | `0xC50F4c1E81c873B2204D7eFf7069Ffec6Fbe136D` |
 | xdai                | `0x2325b72990D81892E0e09cdE5C80DD221F147F8B` |
 | mumbai              | `0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631` |
 | matic               | `0x275617327c958bD06b5D6b871E7f491D76113dd8` |
