@@ -518,6 +518,8 @@ export class Multicall {
         return '0x275617327c958bD06b5D6b871E7f491D76113dd8';
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
+      case Networks.arbitrum:
+        return '0x7a7443f8c577d537f1d8cd4a629d40a3148dd7ee';
       default:
         throw new Error(
           `Network - ${network} is not got a contract defined it only supports mainnet, kovan, rinkeby, bsc and ropsten`

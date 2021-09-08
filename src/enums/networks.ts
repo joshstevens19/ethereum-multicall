@@ -9,4 +9,5 @@ export enum Networks {
   matic = 137,
   mumbai = 80001,
   etherlite = 111,
+  arbitrum = 42161,
 }
