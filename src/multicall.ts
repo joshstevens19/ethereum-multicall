@@ -254,15 +254,13 @@ export class Multicall {
    */
   // tslint:disable-next-line: no-any
   private formatReturnValues(decodedReturnValues: any): any[] {
-    // ethers put the result of the decode in an array sometimes.
-    const decodedReturnResults = decodedReturnValues[0];
+    let decodedReturnResults = decodedReturnValues;
+    if (decodedReturnValues.length === 1) {
+      decodedReturnResults = decodedReturnValues[0];
+    }
 
     if (Array.isArray(decodedReturnResults)) {
       return decodedReturnResults;
-    }
-
-    if (Array.isArray(decodedReturnValues)) {
-      return decodedReturnValues;
     }
 
     return [decodedReturnResults];
@@ -314,7 +312,7 @@ export class Multicall {
     methodName: string
   ): AbiOutput[] | undefined {
     for (let i = 0; i < abi.length; i++) {
-      if (abi[i].name === methodName) {
+      if (abi[i].name?.trim() === methodName.trim()) {
         return abi[i].outputs;
       }
     }
@@ -511,7 +509,7 @@ export class Multicall {
       case Networks.goerli:
         return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.bsc:
-        return '0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF';
+        return '0xC50F4c1E81c873B2204D7eFf7069Ffec6Fbe136D';
       case Networks.bsc_testnet:
         return '0x6e5BB1a5Ad6F68A8D7D6A5e47750eC15773d6042';
       case Networks.xdai:
@@ -522,6 +520,8 @@ export class Multicall {
         return '0x275617327c958bD06b5D6b871E7f491D76113dd8';
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
+      case Networks.arbitrum:
+        return '0x7a7443f8c577d537f1d8cd4a629d40a3148dd7ee';
       default:
         throw new Error(
           `Network - ${network} is not got a contract defined it only supports mainnet, kovan, rinkeby, bsc and ropsten`
