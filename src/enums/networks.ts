@@ -3,7 +3,7 @@ export enum Networks {
   ropsten = 3,
   rinkeby = 4,
   goerli = 5,
-  bsc_testnet = 56,
+  bsc_testnet = 97,
   bsc = 56,
   kovan = 42,
   xdai = 100,
