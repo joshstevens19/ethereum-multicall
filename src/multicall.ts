@@ -510,6 +510,8 @@ export class Multicall {
         return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
       case Networks.bsc:
         return '0xC50F4c1E81c873B2204D7eFf7069Ffec6Fbe136D';
+      case Networks.bsc_testnet:
+        return '0x6e5BB1a5Ad6F68A8D7D6A5e47750eC15773d6042';
       case Networks.xdai:
         return '0x2325b72990D81892E0e09cdE5C80DD221F147F8B';
       case Networks.mumbai:
