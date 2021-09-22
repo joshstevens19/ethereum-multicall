@@ -476,6 +476,8 @@ by default it looks at your network from the provider you passed in and makes th
 | mumbai              | `0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631` |
 | matic               | `0x275617327c958bD06b5D6b871E7f491D76113dd8` |
 | arbitrum            | `0x7a7443f8c577d537f1d8cd4a629d40a3148dd7ee` |
+| avalaunche fuji     | `0x3D015943d2780fE97FE3f69C97edA2CCC094f78c` |
+| avalaunche mainnet  | `0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4` |
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 
