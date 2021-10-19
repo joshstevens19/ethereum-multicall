@@ -21,6 +21,10 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 - xdai
 - matic
 - mumbai
+- etherlite
+- arbitrum
+- avalaunche fuji testnet
+- avaxlaunche mainnet
 - custom network with your own instance of multicall deployed
 
 ## Installation
@@ -474,6 +478,7 @@ by default it looks at your network from the provider you passed in and makes th
 | bsc testnet         | `0x6e5BB1a5Ad6F68A8D7D6A5e47750eC15773d6042` |
 | xdai                | `0x2325b72990D81892E0e09cdE5C80DD221F147F8B` |
 | mumbai              | `0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631` |
+| etherlite           | `0x21681750D7ddCB8d1240eD47338dC984f94AF2aC` |
 | matic               | `0x275617327c958bD06b5D6b871E7f491D76113dd8` |
 | arbitrum            | `0x7a7443f8c577d537f1d8cd4a629d40a3148dd7ee` |
 | avalaunche fuji     | `0x3D015943d2780fE97FE3f69C97edA2CCC094f78c` |
