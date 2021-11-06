@@ -521,7 +521,7 @@ export class Multicall {
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
       case Networks.arbitrum:
-        return '0x7a7443f8c577d537f1d8cd4a629d40a3148dd7ee';
+        return '0x80C7DD17B01855a6D2347444a0FCC36136a314de';
       case Networks.avalauncheFuji:
         return '0x3D015943d2780fE97FE3f69C97edA2CCC094f78c';
       case Networks.avalauncheMainnet:
