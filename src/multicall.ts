@@ -526,6 +526,8 @@ export class Multicall {
         return '0x3D015943d2780fE97FE3f69C97edA2CCC094f78c';
       case Networks.avalauncheMainnet:
         return '0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4';
+      case Networks.fantom:
+        return '0xD98e3dBE5950Ca8Ce5a4b59630a5652110403E5c';
       default:
         throw new Error(
           `Network - ${network} is not got a contract defined it only supports mainnet, kovan, rinkeby, bsc and ropsten`

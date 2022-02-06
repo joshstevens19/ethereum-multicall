@@ -13,4 +13,5 @@ export enum Networks {
   avalauncheMainnet = 43114,
   etherlite = 111,
   arbitrum = 42161,
+  fantom = 250,
 }

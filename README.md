@@ -25,6 +25,7 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 - arbitrum
 - avalaunche fuji testnet
 - avaxlaunche mainnet
+- fantom mainnet
 - custom network with your own instance of multicall deployed
 
 ## Installation
@@ -483,6 +484,7 @@ by default it looks at your network from the provider you passed in and makes th
 | arbitrum            | `0x7a7443f8c577d537f1d8cd4a629d40a3148dd7ee` |
 | avalaunche fuji     | `0x3D015943d2780fE97FE3f69C97edA2CCC094f78c` |
 | avalaunche mainnet  | `0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4` |
+| fantom mainnet      | `0xD98e3dBE5950Ca8Ce5a4b59630a5652110403E5c` |
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 
