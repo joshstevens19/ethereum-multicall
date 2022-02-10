@@ -184,24 +184,24 @@ var Multicall = /** @class */ (function () {
                                     decodedReturnValues = defaultAbiCoder.decode(
                                     // tslint:disable-next-line: no-any
                                     outputTypes, this.getReturnDataFromResult(methodContext.result));
-                                    returnObjectResult.callsReturnContext.push(Utils.deepClone({
+                                    returnObjectResult.callsReturnContext.push({
                                         returnValues: this.formatReturnValues(decodedReturnValues),
                                         decoded: true,
                                         reference: originalContractCallMethodContext.reference,
                                         methodName: originalContractCallMethodContext.methodName,
                                         methodParameters: originalContractCallMethodContext.methodParameters,
                                         success: true,
-                                    }));
+                                    });
                                 }
                                 else {
-                                    returnObjectResult.callsReturnContext.push(Utils.deepClone({
+                                    returnObjectResult.callsReturnContext.push({
                                         returnValues: this.getReturnDataFromResult(methodContext.result),
                                         decoded: false,
                                         reference: originalContractCallMethodContext.reference,
                                         methodName: originalContractCallMethodContext.methodName,
                                         methodParameters: originalContractCallMethodContext.methodParameters,
                                         success: true,
-                                    }));
+                                    });
                                 }
                             }
                             returnObject.results[returnObjectResult.originalContractCallContext.reference] = returnObjectResult;

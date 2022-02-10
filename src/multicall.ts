@@ -201,29 +201,25 @@ export class Multicall {
             this.getReturnDataFromResult(methodContext.result)
           );
 
-          returnObjectResult.callsReturnContext.push(
-            Utils.deepClone<CallReturnContext>({
-              returnValues: this.formatReturnValues(decodedReturnValues),
-              decoded: true,
-              reference: originalContractCallMethodContext.reference,
-              methodName: originalContractCallMethodContext.methodName,
-              methodParameters:
-                originalContractCallMethodContext.methodParameters,
-              success: true,
-            })
-          );
+          returnObjectResult.callsReturnContext.push({
+            returnValues: this.formatReturnValues(decodedReturnValues),
+            decoded: true,
+            reference: originalContractCallMethodContext.reference,
+            methodName: originalContractCallMethodContext.methodName,
+            methodParameters:
+              originalContractCallMethodContext.methodParameters,
+            success: true,
+          });
         } else {
-          returnObjectResult.callsReturnContext.push(
-            Utils.deepClone<CallReturnContext>({
-              returnValues: this.getReturnDataFromResult(methodContext.result),
-              decoded: false,
-              reference: originalContractCallMethodContext.reference,
-              methodName: originalContractCallMethodContext.methodName,
-              methodParameters:
-                originalContractCallMethodContext.methodParameters,
-              success: true,
-            })
-          );
+          returnObjectResult.callsReturnContext.push({
+            returnValues: this.getReturnDataFromResult(methodContext.result),
+            decoded: false,
+            reference: originalContractCallMethodContext.reference,
+            methodName: originalContractCallMethodContext.methodName,
+            methodParameters:
+              originalContractCallMethodContext.methodParameters,
+            success: true,
+          });
         }
       }
 
