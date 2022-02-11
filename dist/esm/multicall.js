@@ -184,6 +184,7 @@ var Multicall = /** @class */ (function () {
                                     decodedReturnValues = defaultAbiCoder.decode(
                                     // tslint:disable-next-line: no-any
                                     outputTypes, this.getReturnDataFromResult(methodContext.result));
+                                    console.log(this.formatReturnValues(decodedReturnValues));
                                     returnObjectResult.callsReturnContext.push({
                                         returnValues: this.formatReturnValues(decodedReturnValues),
                                         decoded: true,
