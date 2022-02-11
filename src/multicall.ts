@@ -201,7 +201,6 @@ export class Multicall {
             this.getReturnDataFromResult(methodContext.result)
           );
 
-          console.log(this.formatReturnValues(decodedReturnValues));
           returnObjectResult.callsReturnContext.push({
             returnValues: this.formatReturnValues(decodedReturnValues),
             decoded: true,
