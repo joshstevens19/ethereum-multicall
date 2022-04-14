@@ -195,23 +195,40 @@ export class Multicall {
         }
 
         if (outputTypes && outputTypes.length > 0) {
-          const decodedReturnValues = defaultAbiCoder.decode(
-            // tslint:disable-next-line: no-any
-            outputTypes as any,
-            this.getReturnDataFromResult(methodContext.result)
-          );
+          try {
+            const decodedReturnValues = defaultAbiCoder.decode(
+              // tslint:disable-next-line: no-any
+              outputTypes as any,
+              this.getReturnDataFromResult(methodContext.result)
+            );
 
-          returnObjectResult.callsReturnContext.push(
-            Utils.deepClone<CallReturnContext>({
-              returnValues: this.formatReturnValues(decodedReturnValues),
-              decoded: true,
-              reference: originalContractCallMethodContext.reference,
-              methodName: originalContractCallMethodContext.methodName,
-              methodParameters:
-                originalContractCallMethodContext.methodParameters,
-              success: true,
-            })
-          );
+            returnObjectResult.callsReturnContext.push(
+              Utils.deepClone<CallReturnContext>({
+                returnValues: this.formatReturnValues(decodedReturnValues),
+                decoded: true,
+                reference: originalContractCallMethodContext.reference,
+                methodName: originalContractCallMethodContext.methodName,
+                methodParameters:
+                  originalContractCallMethodContext.methodParameters,
+                success: true,
+              })
+            );
+          } catch (e) {
+            if (!this._options.tryAggregate) {
+              throw e
+            }
+            returnObjectResult.callsReturnContext.push(
+              Utils.deepClone<CallReturnContext>({
+                returnValues: [],
+                decoded: false,
+                reference: originalContractCallMethodContext.reference,
+                methodName: originalContractCallMethodContext.methodName,
+                methodParameters:
+                  originalContractCallMethodContext.methodParameters,
+                success: false,
+              })
+            );
+          }
         } else {
           returnObjectResult.callsReturnContext.push(
             Utils.deepClone<CallReturnContext>({
