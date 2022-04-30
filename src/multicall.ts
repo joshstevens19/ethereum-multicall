@@ -539,15 +539,19 @@ export class Multicall {
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
       case Networks.arbitrum:
         return '0x80C7DD17B01855a6D2347444a0FCC36136a314de';
-      case Networks.avalauncheFuji:
+      case Networks.avalancheFuji:
         return '0x3D015943d2780fE97FE3f69C97edA2CCC094f78c';
-      case Networks.avalauncheMainnet:
+      case Networks.avalancheMainnet:
         return '0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4';
       case Networks.fantom:
         return '0xD98e3dBE5950Ca8Ce5a4b59630a5652110403E5c';
+      case Networks.cronos:
+        return '0x5e954f5972EC6BFc7dECd75779F10d848230345F';
+      case Networks.harmony:
+        return '0x5c41f6817feeb65d7b2178b0b9cebfc8fad97969';
       default:
         throw new Error(
-          `Network - ${network} is not got a contract defined it only supports mainnet, kovan, rinkeby, bsc and ropsten`
+          `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`
         );
     }
   }

@@ -23,9 +23,11 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 - mumbai
 - etherlite
 - arbitrum
-- avalaunche fuji testnet
-- avaxlaunche mainnet
+- avalanche fuji testnet
+- avalanche mainnet
 - fantom mainnet
+- cronos
+- harmony (shard 0)
 - custom network with your own instance of multicall deployed
 
 ## Installation
@@ -85,16 +87,12 @@ let provider = ethers.getDefaultProvider();
 // other context like wallet, signer etc all can be passed in as well.
 const multicall = new Multicall({ ethersProvider: provider, tryAggregate: true });
 
-const contractCallContext: ContractCallContext<{extraContext: string, foo4: boolean}>[] = [
+const contractCallContext: ContractCallContext[] = [
     {
         reference: 'testContract',
         contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
         abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
-        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }],
-        context: {
-          extraContext: 'extraContext',
-          foo4: true
-        }
+        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
     },
     {
         reference: 'testContract2',
@@ -318,7 +316,7 @@ console.log(results);
 
 ### try aggregate
 
-By default if you dont turn `tryAggregate` to true if 1 `eth_call` fails in your multicall the whole result will throw. If you turn `tryAggregate` to true it means if 1 of your `eth_call` methods fail it still return you the rest of the results. It will still be in the same order as you expect but you have a `success` boolean to check if it passed or failed.
+By default if you dont turn `tryAggregate` to true if 1 `eth_call` fails in your multicall the whole result will throw. If you turn `tryAggregate` to true it means if 1 of your `eth_call` methods fail it still return you the rest of the results. It will still be in the same order as you expect but you have a `success` boolean to check if it passed or failed. Keep in mind that if using a custom multicall contract deployment, Multicall version 1's will not work. Use a Multicall2 deployment (contract can be found [here](https://github.com/makerdao/multicall/blob/master/src/Multicall2.sol)).
 
 ```ts
 import {
@@ -482,9 +480,11 @@ by default it looks at your network from the provider you passed in and makes th
 | etherlite           | `0x21681750D7ddCB8d1240eD47338dC984f94AF2aC` |
 | matic               | `0x275617327c958bD06b5D6b871E7f491D76113dd8` |
 | arbitrum            | `0x7a7443f8c577d537f1d8cd4a629d40a3148dd7ee` |
-| avalaunche fuji     | `0x3D015943d2780fE97FE3f69C97edA2CCC094f78c` |
-| avalaunche mainnet  | `0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4` |
+| avalanche fuji      | `0x3D015943d2780fE97FE3f69C97edA2CCC094f78c` |
+| avalanche mainnet   | `0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4` |
 | fantom mainnet      | `0xD98e3dBE5950Ca8Ce5a4b59630a5652110403E5c` |
+| cronos              | `0x5e954f5972EC6BFc7dECd75779F10d848230345F` |
+| harmony             | `0x5c41f6817feeb65d7b2178b0b9cebfc8fad97969` |
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 
