@@ -545,6 +545,10 @@ export class Multicall {
         return '0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4';
       case Networks.fantom:
         return '0xD98e3dBE5950Ca8Ce5a4b59630a5652110403E5c';
+      case Networks.cronos:
+        return '0x5e954f5972EC6BFc7dECd75779F10d848230345F';
+      case Networks.harmony:
+        return '0x5c41f6817feeb65d7b2178b0b9cebfc8fad97969';
       default:
         throw new Error(
           `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`
