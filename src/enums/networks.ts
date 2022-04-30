@@ -9,9 +9,11 @@ export enum Networks {
   xdai = 100,
   matic = 137,
   mumbai = 80001,
-  avalauncheFuji = 43113,
-  avalauncheMainnet = 43114,
+  avalancheFuji = 43113,
+  avalancheMainnet = 43114,
   etherlite = 111,
   arbitrum = 42161,
   fantom = 250,
+  cronos = 25,
+  harmony = 1666600000
 }
