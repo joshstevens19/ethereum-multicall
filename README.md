@@ -28,6 +28,8 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 - fantom mainnet
 - cronos
 - harmony (shard 0)
+- optimism
+- kovanOptimism
 - custom network with your own instance of multicall deployed
 
 ## Installation
@@ -485,6 +487,8 @@ by default it looks at your network from the provider you passed in and makes th
 | fantom mainnet      | `0xD98e3dBE5950Ca8Ce5a4b59630a5652110403E5c` |
 | cronos              | `0x5e954f5972EC6BFc7dECd75779F10d848230345F` |
 | harmony             | `0x5c41f6817feeb65d7b2178b0b9cebfc8fad97969` |
+| optimism            | `0xeAa6877139d436Dc6d1f75F3aF15B74662617B2C` |
+| kovanOptimism       | `0x91c88479F21203444D2B20Aa001f951EC8CF2F68` |
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 
