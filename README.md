@@ -219,6 +219,64 @@ console.log(results);
 }
 ```
 
+### specify call block number
+
+The multicall instance call method has an optional second argument of type [ContractCallOptions](src/models/contract-call-options.ts).
+
+One of the options is the blockNumber, so you can choose the height where you want the data from.
+
+It is compatible with both ethers and web3 providers.
+
+```ts
+import {
+  Multicall,
+  ContractCallResults,
+  ContractCallContext,
+} from 'ethereum-multicall';
+import Web3 from 'web3';
+
+const web3 = new Web3('https://some.local-or-remote.node:8546');
+
+const multicall = new Multicall({ web3Instance: web3, tryAggregate: true });
+
+const contractCallContext: ContractCallContext[] = [
+    {
+        reference: 'testContract',
+        contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+        abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+    }
+];
+
+const results: ContractCallResults = await multicall.call(contractCallContext,{
+    blockNumber: '14571050'
+});
+console.log(results);
+
+// results: it will have the same block as requested
+{
+  results: {
+      testContract: {
+          originalContractCallContext:  {
+            reference: 'testContract',
+            contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+            abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+            calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+          },
+          callsReturnContext: [{
+              returnValues: [{ amounts: BigNumber }],
+              decoded: true,
+              reference: 'fooCall',
+              methodName: 'foo',
+              methodParameters: [42],
+              success: true
+          }]
+      },
+  },
+  blockNumber: 14571050
+}
+```
+
 ### passing extra context to the call
 
 If you want store any context or state so you don't need to look back over arrays once you got the result back. it can be stored in `context` within `ContractCallContext`.
