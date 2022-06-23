@@ -14,6 +14,7 @@ import {
   MulticallOptionsCustomJsonRpcProvider,
   MulticallOptionsEthers,
   MulticallOptionsWeb3,
+  ContractCallOptions,
 } from './models';
 import { Utils } from './utils';
 
@@ -134,14 +135,16 @@ export class Multicall {
    * @param calls The calls
    */
   public async call(
-    contractCallContexts: ContractCallContext[] | ContractCallContext
+    contractCallContexts: ContractCallContext[] | ContractCallContext,
+    contractCallOptions: ContractCallOptions = {}
   ): Promise<ContractCallResults> {
     if (!Array.isArray(contractCallContexts)) {
       contractCallContexts = [contractCallContexts];
     }
 
     const aggregateResponse = await this.execute(
-      this.buildAggregateCallContext(contractCallContexts)
+      this.buildAggregateCallContext(contractCallContexts),
+      contractCallOptions
     );
 
     const returnObject: ContractCallResults = {
@@ -215,7 +218,7 @@ export class Multicall {
             );
           } catch (e) {
             if (!this._options.tryAggregate) {
-              throw e
+              throw e;
             }
             returnObjectResult.callsReturnContext.push(
               Utils.deepClone<CallReturnContext>({
@@ -342,14 +345,15 @@ export class Multicall {
    * @param calls The calls
    */
   private async execute(
-    calls: AggregateCallContext[]
+    calls: AggregateCallContext[],
+    options: ContractCallOptions
   ): Promise<AggregateResponse> {
     switch (this._executionType) {
       case ExecutionType.web3:
-        return await this.executeWithWeb3(calls);
+        return await this.executeWithWeb3(calls, options);
       case ExecutionType.ethers:
       case ExecutionType.customHttp:
-        return await this.executeWithEthersOrCustom(calls);
+        return await this.executeWithEthersOrCustom(calls, options);
       default:
         throw new Error(`${this._executionType} is not defined`);
     }
@@ -360,7 +364,8 @@ export class Multicall {
    * @param calls The calls context
    */
   private async executeWithWeb3(
-    calls: AggregateCallContext[]
+    calls: AggregateCallContext[],
+    options: ContractCallOptions
   ): Promise<AggregateResponse> {
     const web3 = this.getTypedOptions<MulticallOptionsWeb3>().web3Instance;
     const networkId = await web3.eth.net.getId();
@@ -368,14 +373,17 @@ export class Multicall {
       this.ABI,
       this.getContractBasedOnNetwork(networkId)
     );
-
+    const callParams = [];
+    if (options.blockNumber) {
+      callParams.push(options.blockNumber);
+    }
     if (this._options.tryAggregate) {
       const contractResponse = (await contract.methods
         .tryBlockAndAggregate(
           false,
           this.mapCallContextToMatchContractFormat(calls)
         )
-        .call()) as AggregateContractResponse;
+        .call(...callParams)) as AggregateContractResponse;
 
       contractResponse.blockNumber = BigNumber.from(
         contractResponse.blockNumber
@@ -385,7 +393,7 @@ export class Multicall {
     } else {
       const contractResponse = (await contract.methods
         .aggregate(this.mapCallContextToMatchContractFormat(calls))
-        .call()) as AggregateContractResponse;
+        .call(...callParams)) as AggregateContractResponse;
 
       contractResponse.blockNumber = BigNumber.from(
         contractResponse.blockNumber
@@ -400,7 +408,8 @@ export class Multicall {
    * @param calls The calls
    */
   private async executeWithEthersOrCustom(
-    calls: AggregateCallContext[]
+    calls: AggregateCallContext[],
+    options: ContractCallOptions
   ): Promise<AggregateResponse> {
     let ethersProvider = this.getTypedOptions<MulticallOptionsEthers>()
       .ethersProvider;
@@ -425,17 +434,25 @@ export class Multicall {
       this.ABI,
       ethersProvider
     );
-
+    let overrideOptions = {};
+    if (options.blockNumber) {
+      overrideOptions = {
+        ...overrideOptions,
+        blockTag: Number(options.blockNumber),
+      };
+    }
     if (this._options.tryAggregate) {
       const contractResponse = (await contract.callStatic.tryBlockAndAggregate(
         false,
-        this.mapCallContextToMatchContractFormat(calls)
+        this.mapCallContextToMatchContractFormat(calls),
+        overrideOptions
       )) as AggregateContractResponse;
 
       return this.buildUpAggregateResponse(contractResponse, calls);
     } else {
       const contractResponse = (await contract.callStatic.aggregate(
-        this.mapCallContextToMatchContractFormat(calls)
+        this.mapCallContextToMatchContractFormat(calls),
+        overrideOptions
       )) as AggregateContractResponse;
 
       return this.buildUpAggregateResponse(contractResponse, calls);
