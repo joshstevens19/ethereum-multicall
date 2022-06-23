@@ -60,6 +60,17 @@ const execute = async () => {
     context.results[contractCallContext.reference].callsReturnContext[0]
       .returnValues
   );
+  const latestBlock = await provider.getBlockNumber();
+  const blockNumber = `${latestBlock - 15}`;
+  const contextOnBlock: ContractCallResults = await multicall.call(
+    contractCallContext,
+    { blockNumber }
+  );
+  console.log({
+    latestBlock,
+    blockNumber,
+    resultBlock: contextOnBlock.blockNumber,
+  });
 };
 
 execute();
