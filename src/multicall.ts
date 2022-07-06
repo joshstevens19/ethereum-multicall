@@ -344,11 +344,17 @@ export class Multicall {
 
     return undefined;
   }
+
+  /**
+   * Build a mehtod signature from the abi item
+   * @param abiItem AbiItem
+   */
   private buildAbiItemSignature(abiItem: AbiItem) {
     const abiMethodParamTypes =
       abiItem.inputs?.map((input) => input.type.trim()).join(',') || '';
     return `${abiItem.name?.trim()}(${abiMethodParamTypes})`;
   }
+
   /**
    * Execute the multicall contract call
    * @param calls The calls
