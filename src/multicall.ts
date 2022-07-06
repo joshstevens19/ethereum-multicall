@@ -332,14 +332,23 @@ export class Multicall {
     methodName: string
   ): AbiOutput[] | undefined {
     for (let i = 0; i < abi.length; i++) {
-      if (abi[i].name?.trim() === methodName.trim()) {
+      methodName = methodName.trim();
+      const abiMethodName = abi[i].name?.trim();
+      if (abiMethodName === methodName) {
+        return abi[i].outputs;
+      }
+      if (methodName === this.buildAbiItemSignature(abi[i])) {
         return abi[i].outputs;
       }
     }
 
     return undefined;
   }
-
+  private buildAbiItemSignature(abiItem: AbiItem) {
+    const abiMethodParamTypes =
+      abiItem.inputs?.map((input) => input.type.trim()).join(',') || '';
+    return `${abiItem.name?.trim()}(${abiMethodParamTypes})`;
+  }
   /**
    * Execute the multicall contract call
    * @param calls The calls
