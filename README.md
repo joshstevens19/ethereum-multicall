@@ -47,7 +47,64 @@ $ yarn add ethereum-multicall
 ```
 
 ## Usage
+### Overloaded methods
+As the [official docs mentions here](https://docs.ethers.io/v3/api-contract.html#prototype):
 
+> Due to signature overloading, multiple functions can have the same name. The first function specifed in the ABI will be bound to its name. To access overloaded functions, use the full typed signature of the functions (e.g. contract["foobar(address,uint256)"]).
+
+So, when creating the contract call context, under the calls array property we should have that in mind and use the method signature rather than the method name. E.g.
+```js
+const contractCallContext: ContractCallContext = {
+    reference: 'upV2Controller',
+    contractAddress: '0x19891DdF6F393C02E484D7a942d4BF8C0dB1d001',
+    abi: [
+      {
+        inputs: [],
+        name: 'getVirtualPrice',
+        outputs: [
+          {
+            internalType: 'uint256',
+            name: '',
+            type: 'uint256',
+          },
+        ],
+        stateMutability: 'view',
+        type: 'function',
+      },
+      {
+        inputs: [
+          {
+            internalType: 'uint256',
+            name: 'sentValue',
+            type: 'uint256',
+          },
+        ],
+        name: 'getVirtualPrice',
+        outputs: [
+          {
+            internalType: 'uint256',
+            name: '',
+            type: 'uint256',
+          },
+        ],
+        stateMutability: 'view',
+        type: 'function',
+      },
+    ],
+    calls: [
+      {
+        reference: 'getVirtualPriceWithInput',
+        methodName: 'getVirtualPrice(uint256)',
+        methodParameters: ['0xFFFFFFFFFFFFF'],
+      },
+      {
+        reference: 'getVirtualPriceWithoutInput',
+        methodName: 'getVirtualPrice()',
+        methodParameters: [],
+      },
+    ],
+  };
+```
 ### Import examples:
 
 ### JavaScript (ES3)

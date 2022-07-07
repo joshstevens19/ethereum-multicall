@@ -331,8 +331,17 @@ export class Multicall {
     abi: AbiItem[],
     methodName: string
   ): AbiOutput[] | undefined {
+    const contract = new ethers.Contract(
+      ethers.constants.AddressZero,
+      abi as any
+    );
+    methodName = methodName.trim();
+    if (contract.interface.functions[methodName]) {
+      return contract.interface.functions[methodName].outputs;
+    }
+
     for (let i = 0; i < abi.length; i++) {
-      if (abi[i].name?.trim() === methodName.trim()) {
+      if (abi[i].name?.trim() === methodName) {
         return abi[i].outputs;
       }
     }
