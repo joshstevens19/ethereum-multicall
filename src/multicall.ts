@@ -331,28 +331,22 @@ export class Multicall {
     abi: AbiItem[],
     methodName: string
   ): AbiOutput[] | undefined {
+    const contract = new ethers.Contract(
+      ethers.constants.AddressZero,
+      abi as any
+    );
+    methodName = methodName.trim();
+    if (contract.interface.functions[methodName]) {
+      return contract.interface.functions[methodName].outputs;
+    }
+
     for (let i = 0; i < abi.length; i++) {
-      methodName = methodName.trim();
-      const abiMethodName = abi[i].name?.trim();
-      if (abiMethodName === methodName) {
-        return abi[i].outputs;
-      }
-      if (methodName === this.buildAbiItemSignature(abi[i])) {
+      if (abi[i].name?.trim() === methodName) {
         return abi[i].outputs;
       }
     }
 
     return undefined;
-  }
-
-  /**
-   * Build a mehtod signature from the abi item
-   * @param abiItem AbiItem
-   */
-  private buildAbiItemSignature(abiItem: AbiItem) {
-    const abiMethodParamTypes =
-      abiItem.inputs?.map((input) => input.type.trim()).join(',') || '';
-    return `${abiItem.name?.trim()}(${abiMethodParamTypes})`;
   }
 
   /**
