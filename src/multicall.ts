@@ -579,6 +579,8 @@ export class Multicall {
         return '0xeAa6877139d436Dc6d1f75F3aF15B74662617B2C';
       case Networks.kovanOptimism:
         return '0x91c88479F21203444D2B20Aa001f951EC8CF2F68';
+      case Networks.aurora:
+        return '0x04364F8908BDCB4cc7EA881d0DE869398BA849C9';
       default:
         throw new Error(
           `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`

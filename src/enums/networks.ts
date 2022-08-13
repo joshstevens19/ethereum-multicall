@@ -17,5 +17,6 @@ export enum Networks {
   arbitrum = 42161,
   fantom = 250,
   cronos = 25,
-  harmony = 1666600000
+  harmony = 1666600000,
+  aurora = 1313161554
 }
