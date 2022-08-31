@@ -377,7 +377,7 @@ export class Multicall {
     options: ContractCallOptions
   ): Promise<AggregateResponse> {
     const web3 = this.getTypedOptions<MulticallOptionsWeb3>().web3Instance;
-    const networkId = await web3.eth.net.getId();
+    const networkId = this._options.networkId || (await web3.eth.net.getId());
     const contract = new web3.eth.Contract(
       this.ABI,
       this.getContractBasedOnNetwork(networkId)
@@ -420,13 +420,12 @@ export class Multicall {
     calls: AggregateCallContext[],
     options: ContractCallOptions
   ): Promise<AggregateResponse> {
-    let ethersProvider = this.getTypedOptions<MulticallOptionsEthers>()
-      .ethersProvider;
+    let ethersProvider =
+      this.getTypedOptions<MulticallOptionsEthers>().ethersProvider;
 
     if (!ethersProvider) {
-      const customProvider = this.getTypedOptions<
-        MulticallOptionsCustomJsonRpcProvider
-      >();
+      const customProvider =
+        this.getTypedOptions<MulticallOptionsCustomJsonRpcProvider>();
       if (customProvider.nodeUrl) {
         ethersProvider = new ethers.providers.JsonRpcProvider(
           customProvider.nodeUrl
@@ -436,10 +435,14 @@ export class Multicall {
       }
     }
 
-    const network = await ethersProvider.getNetwork();
+    const network =
+      this._options.networkId ||
+      (await (
+        await ethersProvider.getNetwork()
+      ).chainId);
 
     const contract = new ethers.Contract(
-      this.getContractBasedOnNetwork(network.chainId),
+      this.getContractBasedOnNetwork(network),
       this.ABI,
       ethersProvider
     );
@@ -530,7 +533,7 @@ export class Multicall {
    * Get typed options
    */
   private getTypedOptions<T>(): T {
-    return (this._options as unknown) as T;
+    return this._options as unknown as T;
   }
 
   /**
@@ -581,6 +584,76 @@ export class Multicall {
         return '0x91c88479F21203444D2B20Aa001f951EC8CF2F68';
       case Networks.aurora:
         return '0x04364F8908BDCB4cc7EA881d0DE869398BA849C9';
+      case Networks.evmos:
+        return '0x80ed034722D8e0D9aC1F39EF69c65dfbf9b8C558';
+      case Networks.klaytn:
+        return '0x2fe78f55c39dc437c4c025f8a1ffc54edb4a34c3';
+      case Networks.aurora:
+        return '0xBF69a56D35B8d6f5A8e0e96B245a72F735751e54';
+      case Networks.boba:
+        return '0xaeD5b25BE1c3163c907a471082640450F928DDFE';
+      case Networks.celo:
+        return '0x86aAD62D1C36f4f92C8219D5C3ff97c3EF471bb8';
+      case Networks.elastos:
+        return '0x5e1554B25731C98e58d5728847938db3DfFA1b57';
+      case Networks.fuse:
+        return '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F';
+      case Networks.heco:
+        return '0xbB5d56bb107FfB849fF5577f692C2ee8E8c38607';
+      case Networks.hsc:
+        return '0x1d44a4fb4C02201bdB49FA9433555F2Ee46BC9B8';
+      case Networks.iotex:
+        return '0x4c1329a07f2525d428dc03374cd46b852a511fec';
+      case Networks.kcc:
+        return '0x0185Fe88dB541F2DB1F6a7343bd4CF17000d98D7';
+      case Networks.metis:
+        return '0xc39aBB6c4451089dE48Cffb013c39d3110530e5C';
+      case Networks.moonbeam:
+        return '0x6477204E12A7236b9619385ea453F370aD897bb2';
+      case Networks.moonriver:
+        return '0x43D002a2B468F048028Ea9C2D3eD4705a94e68Ae';
+      case Networks.oasis:
+        return '0x970F9F4d7D752423A82f4a790B7117D949939B0b';
+      case Networks.velas:
+        return '0x0747CFe82D3Bee998f634569FE2B0005dF9d8EDE';
+      case Networks.wanchain:
+        return '0x70bd16472b30B9B11362C4f5DB0F702099156aAA';
+      case Networks.telos:
+        return '0x89fcf2008981cc2cd9389f445f7f6e59ea69cbf0';
+      case Networks.oec:
+        return '0x89FCf2008981cC2Cd9389f445F7f6e59eA69cbF0';
+      case Networks.smartbch:
+        return '0x89FCf2008981cC2Cd9389f445F7f6e59eA69cbF0';
+      case Networks.shiden:
+        return '0x89FCf2008981cC2Cd9389f445F7f6e59eA69cbF0';
+      case Networks.kardia:
+        return '0xAF60776A49b273318FFE1fC424bc6817209384c1';
+      case Networks.polis:
+        return '0x89FCf2008981cC2Cd9389f445F7f6e59eA69cbF0';
+      case Networks.astar:
+        return '0x89BEcA8D00e721b7714e12F1c29A2523DBE798a7';
+      case Networks.milkomeda:
+        return '0x2ecBF8b054Ef234F3523D605E7ba9cfE9A37703a';
+      case Networks.avalanchedfk:
+        return '0x5b24224dC16508DAD755756639E420817DD4c99E';
+      case Networks.conflux:
+        return '0xbd6706747a7b6c8868cf48735f48c341ea386d07';
+      case Networks.syscoin:
+        return '0xbD6706747a7B6C8868Cf48735f48C341ea386d07';
+      case Networks.echelon:
+        return '0xb4495b21de57dfa6b12cc414525d1850b5fee52d';
+      case Networks.energi:
+        return '0xbd6706747a7b6c8868cf48735f48c341ea386d07';
+      case Networks.energyweb:
+        return '0xbd6706747a7b6c8868cf48735f48c341ea386d07';
+      case Networks.zyx:
+        return '0xbd6706747a7b6c8868cf48735f48c341ea386d07';
+      case Networks.nova:
+        return '0x2fe78f55c39dc437c4c025f8a1ffc54edb4a34c3';
+      case Networks.canto:
+        return '0x59bbf55e70a1afdb25e94fc5ad1d81aa51c3efab';
+      case Networks.dogechain:
+        return '0xe4a8ee19f38522bae0d8219b6cba22ed48ee25d7';
       default:
         throw new Error(
           `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`
