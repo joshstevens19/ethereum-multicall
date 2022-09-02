@@ -546,41 +546,56 @@ export class Multicall {
 
     switch (network) {
       case Networks.mainnet:
-      case Networks.kovan:
-      case Networks.rinkeby:
       case Networks.ropsten:
+      case Networks.rinkeby:
       case Networks.goerli:
-        return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
-      case Networks.bsc:
-        return '0xC50F4c1E81c873B2204D7eFf7069Ffec6Fbe136D';
-      case Networks.bsc_testnet:
-        return '0x73CCde5acdb9980f54BcCc0483B28B8b4a537b4A';
-      case Networks.xdai:
-        return '0x2325b72990D81892E0e09cdE5C80DD221F147F8B';
-      case Networks.mumbai:
-        return '0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631';
+      case Networks.optimism:
+      case Networks.kovan:
       case Networks.matic:
-        return '0x275617327c958bD06b5D6b871E7f491D76113dd8';
+      case Networks.kovanOptimism:
+      case Networks.xdai:
+      case Networks.goerliOptimism:
+      case Networks.arbitrum:
+      case Networks.rinkebyArbitrum:
+      case Networks.goerliArbitrum:
+      case Networks.mumbai:
+      case Networks.sepolia:
+      case Networks.avalancheMainnet:
+      case Networks.avalancheFuji:
+      case Networks.fantomTestnet:
+      case Networks.fantom:
+      case Networks.bsc:
+      case Networks.bsc_testnet:
+      case Networks.moonbeam:
+      case Networks.moonriver:
+      case Networks.moonbaseAlphaTestnet:
+      case Networks.harmony:
+      case Networks.cronos:
+      case Networks.fuse:
+      case Networks.songbirdCanaryNetwork:
+      case Networks.costonTestnet:
+      case Networks.boba:
+      case Networks.aurora:
+      case Networks.astar:
+      case Networks.okc:
+      case Networks.heco:
+      case Networks.metis:
+      case Networks.rsk:
+      case Networks.rskTestnet:
+      case Networks.evmos:
+      case Networks.evmosTestnet:
+      case Networks.thundercore:
+      case Networks.thundercoreTestnet:
+      case Networks.oasis:
+      case Networks.celo:
+      case Networks.godwoken:
+      case Networks.godwokentestnet:
+      case Networks.klatyn:
+      case Networks.milkomeda:
+      case Networks.kcc:
+        return '0xcA11bde05977b3631167028862bE2a173976CA11';
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
-      case Networks.arbitrum:
-        return '0x80C7DD17B01855a6D2347444a0FCC36136a314de';
-      case Networks.avalancheFuji:
-        return '0x3D015943d2780fE97FE3f69C97edA2CCC094f78c';
-      case Networks.avalancheMainnet:
-        return '0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4';
-      case Networks.fantom:
-        return '0xD98e3dBE5950Ca8Ce5a4b59630a5652110403E5c';
-      case Networks.cronos:
-        return '0x5e954f5972EC6BFc7dECd75779F10d848230345F';
-      case Networks.harmony:
-        return '0x5c41f6817feeb65d7b2178b0b9cebfc8fad97969';
-      case Networks.optimism:
-        return '0xeAa6877139d436Dc6d1f75F3aF15B74662617B2C';
-      case Networks.kovanOptimism:
-        return '0x91c88479F21203444D2B20Aa001f951EC8CF2F68';
-      case Networks.aurora:
-        return '0x04364F8908BDCB4cc7EA881d0DE869398BA849C9';
       default:
         throw new Error(
           `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`
