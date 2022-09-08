@@ -65,7 +65,6 @@ The below networks are supported by default, and custom networks can be supporte
 | KCC                     | 321        |
 | Etherlite               | 111        |
 
-
 ## Installation
 
 ### npm:
@@ -81,64 +80,68 @@ $ yarn add ethereum-multicall
 ```
 
 ## Usage
+
 ### Overloaded methods
+
 As the [official docs mentions here](https://docs.ethers.io/v3/api-contract.html#prototype):
 
 > Due to signature overloading, multiple functions can have the same name. The first function specifed in the ABI will be bound to its name. To access overloaded functions, use the full typed signature of the functions (e.g. contract["foobar(address,uint256)"]).
 
 So, when creating the contract call context, under the calls array property we should have that in mind and use the method signature rather than the method name. E.g.
+
 ```js
 const contractCallContext: ContractCallContext = {
-    reference: 'upV2Controller',
-    contractAddress: '0x19891DdF6F393C02E484D7a942d4BF8C0dB1d001',
-    abi: [
-      {
-        inputs: [],
-        name: 'getVirtualPrice',
-        outputs: [
-          {
-            internalType: 'uint256',
-            name: '',
-            type: 'uint256',
-          },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-      },
-      {
-        inputs: [
-          {
-            internalType: 'uint256',
-            name: 'sentValue',
-            type: 'uint256',
-          },
-        ],
-        name: 'getVirtualPrice',
-        outputs: [
-          {
-            internalType: 'uint256',
-            name: '',
-            type: 'uint256',
-          },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-      },
-    ],
-    calls: [
-      {
-        reference: 'getVirtualPriceWithInput',
-        methodName: 'getVirtualPrice(uint256)',
-        methodParameters: ['0xFFFFFFFFFFFFF'],
-      },
-      {
-        reference: 'getVirtualPriceWithoutInput',
-        methodName: 'getVirtualPrice()',
-        methodParameters: [],
-      },
-    ],
-  };
+  reference: 'upV2Controller',
+  contractAddress: '0x19891DdF6F393C02E484D7a942d4BF8C0dB1d001',
+  abi: [
+    {
+      inputs: [],
+      name: 'getVirtualPrice',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'uint256',
+          name: 'sentValue',
+          type: 'uint256',
+        },
+      ],
+      name: 'getVirtualPrice',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+  ],
+  calls: [
+    {
+      reference: 'getVirtualPriceWithInput',
+      methodName: 'getVirtualPrice(uint256)',
+      methodParameters: ['0xFFFFFFFFFFFFF'],
+    },
+    {
+      reference: 'getVirtualPriceWithoutInput',
+      methodName: 'getVirtualPrice()',
+      methodParameters: [],
+    },
+  ],
+};
 ```
+
 ### Import examples:
 
 ### JavaScript (ES3)
@@ -615,29 +618,9 @@ console.log(results);
 
 ### Multicall contracts
 
-by default it looks at your network from the provider you passed in and makes the contract address to that:
+by default it looks at your network from the provider you passed in and makes the contract address to the known multicall contract addresses `0xcA11bde05977b3631167028862bE2a173976CA11` this is deployed on every single network but `etherlite` which uses `0x21681750D7ddCB8d1240eD47338dC984f94AF2aC`.
 
-| Network             | Address                                      |
-| ------------------- | -------------------------------------------- |
-| mainnet             | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| kovan               | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| görli               | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| rinkeby             | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| ropsten             | `0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696` |
-| binance smart chain | `0xC50F4c1E81c873B2204D7eFf7069Ffec6Fbe136D` |
-| bsc testnet         | `0x73CCde5acdb9980f54BcCc0483B28B8b4a537b4A` |
-| xdai                | `0x2325b72990D81892E0e09cdE5C80DD221F147F8B` |
-| mumbai              | `0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631` |
-| etherlite           | `0x21681750D7ddCB8d1240eD47338dC984f94AF2aC` |
-| matic               | `0x275617327c958bD06b5D6b871E7f491D76113dd8` |
-| arbitrum            | `0x7a7443f8c577d537f1d8cd4a629d40a3148dd7ee` |
-| avalanche fuji      | `0x3D015943d2780fE97FE3f69C97edA2CCC094f78c` |
-| avalanche mainnet   | `0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4` |
-| fantom mainnet      | `0xD98e3dBE5950Ca8Ce5a4b59630a5652110403E5c` |
-| cronos              | `0x5e954f5972EC6BFc7dECd75779F10d848230345F` |
-| harmony             | `0x5c41f6817feeb65d7b2178b0b9cebfc8fad97969` |
-| optimism            | `0xeAa6877139d436Dc6d1f75F3aF15B74662617B2C` |
-| kovanOptimism       | `0x91c88479F21203444D2B20Aa001f951EC8CF2F68` |
+````ts
 
 If you wanted this to point at a different multicall contract address just pass that in the options when creating the multicall instance, example:
 
@@ -646,7 +629,7 @@ const multicall = new Multicall({
   multicallCustomContractAddress: '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696',
   // your rest of your config depending on the provider your using.
 });
-```
+````
 
 ## Issues
 
