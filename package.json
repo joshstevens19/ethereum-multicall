@@ -1,6 +1,6 @@
 {
-  "name": "ethereum-multicall",
-  "version": "2.14.1",
+  "name": "@company-z/ethereum-multicall",
+  "version": "2.14.3",
   "description": "Multicall allows multiple smart contract constant function calls to be grouped into a single call and the results aggregated into a single result",
   "main": "dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -13,10 +13,14 @@
     "watch": "tsc --module commonjs --outDir dist/cjs --watch",
     "test": "npm test",
     "gen-multicall-abi": "abi-types-generator ./src/ABI/multicall-abi.json --output=./src/ABI/types --name=multicall --provider=ethers",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "publish": "publish --tolerate-republish"
   },
   "author": "joshstevens19@hotmail.co.uk",
   "license": "ISC",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "dependencies": {
     "@ethersproject/providers": "^5.0.10",
     "ethers": "^5.0.15"
@@ -30,6 +34,7 @@
     "dist",
     "package.json",
     "package-lock.json",
+    "yarn.lock",
     "README.md",
     "LICENSE"
   ],
