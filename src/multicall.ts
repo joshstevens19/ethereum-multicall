@@ -289,10 +289,9 @@ export class Multicall {
 
   /**
    * Build aggregate call context
-   * exposed as public as people can decide to use this outside multicall.call
    * @param contractCallContexts The contract call contexts
    */
-  public buildAggregateCallContext(
+  private buildAggregateCallContext(
     contractCallContexts: ContractCallContext[]
   ): AggregateCallContext[] {
     const aggregateCallContext: AggregateCallContext[] = [];
@@ -512,10 +511,9 @@ export class Multicall {
 
   /**
    * Map call contract to match contract format
-   * exposed as public as people can decide to use this outside multicall.call
    * @param calls The calls context
    */
-  public mapCallContextToMatchContractFormat(
+  private mapCallContextToMatchContractFormat(
     calls: AggregateCallContext[]
   ): Array<{
     target: string;
