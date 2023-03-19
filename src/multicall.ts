@@ -9,17 +9,18 @@ import {
   AggregateResponse,
   CallReturnContext,
   ContractCallContext,
+  ContractCallOptions,
   ContractCallResults,
   ContractCallReturnContext,
   MulticallOptionsCustomJsonRpcProvider,
   MulticallOptionsEthers,
   MulticallOptionsWeb3,
-  ContractCallOptions,
 } from './models';
 import { Utils } from './utils';
 
 export class Multicall {
-  private readonly ABI = [
+  // exposed as public as people can decide to use this outside multicall.call
+  public static ABI = [
     {
       constant: false,
       inputs: [
@@ -288,9 +289,10 @@ export class Multicall {
 
   /**
    * Build aggregate call context
+   * exposed as public as people can decide to use this outside multicall.call
    * @param contractCallContexts The contract call contexts
    */
-  private buildAggregateCallContext(
+  public buildAggregateCallContext(
     contractCallContexts: ContractCallContext[]
   ): AggregateCallContext[] {
     const aggregateCallContext: AggregateCallContext[] = [];
@@ -379,7 +381,7 @@ export class Multicall {
     const web3 = this.getTypedOptions<MulticallOptionsWeb3>().web3Instance;
     const networkId = await web3.eth.net.getId();
     const contract = new web3.eth.Contract(
-      this.ABI,
+      Multicall.ABI,
       this.getContractBasedOnNetwork(networkId)
     );
     const callParams = [];
@@ -440,7 +442,7 @@ export class Multicall {
 
     const contract = new ethers.Contract(
       this.getContractBasedOnNetwork(network.chainId),
-      this.ABI,
+      Multicall.ABI,
       ethersProvider
     );
     let overrideOptions = {};
@@ -510,9 +512,10 @@ export class Multicall {
 
   /**
    * Map call contract to match contract format
+   * exposed as public as people can decide to use this outside multicall.call
    * @param calls The calls context
    */
-  private mapCallContextToMatchContractFormat(
+  public mapCallContextToMatchContractFormat(
     calls: AggregateCallContext[]
   ): Array<{
     target: string;
