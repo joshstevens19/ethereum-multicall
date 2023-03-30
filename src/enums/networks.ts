@@ -53,5 +53,6 @@ export enum Networks {
   zyx = 55,
   nova = 42170,
   dogechain = 2000,
-  canto = 7700
+  canto = 7700,
+  zksync = 324
 }
