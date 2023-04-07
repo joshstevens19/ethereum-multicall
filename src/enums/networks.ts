@@ -48,4 +48,6 @@ export enum Networks {
   milkomeda = 2001,
   kcc = 321,
   etherlite = 111,
+  skale = 26062157,
+  meter = 82
 }
