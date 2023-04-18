@@ -64,6 +64,7 @@ The below networks are supported by default, and custom networks can be supporte
 | Milkomeda               | 2001       |
 | KCC                     | 321        |
 | Etherlite               | 111        |
+| Linea Testnet		  | 59140      |
 
 ## Installation
 
