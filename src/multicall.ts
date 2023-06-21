@@ -247,10 +247,15 @@ export class Multicall {
           );
         }
       }
-
-      returnObject.results[
+      if(returnObject.results[
         returnObjectResult.originalContractCallContext.reference
-      ] = returnObjectResult;
+      ]) {
+        returnObject.results[returnObjectResult.originalContractCallContext.reference] = [...returnObject.results[returnObjectResult.originalContractCallContext.reference],...returnObjectResult]
+      }else {
+        returnObject.results[
+          returnObjectResult.originalContractCallContext.reference
+        ] = returnObjectResult;
+      }
     }
 
     return returnObject;
