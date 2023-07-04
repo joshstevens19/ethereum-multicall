@@ -49,4 +49,5 @@ export enum Networks {
   kcc = 321,
   etherlite = 111,
   lineaTestnet = 59140,
+  linea = 59144,
 }
