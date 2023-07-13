@@ -50,4 +50,5 @@ export enum Networks {
   etherlite = 111,
   lineaTestnet = 59140,
   linea = 59144,
+  scroll = 534352,
 }

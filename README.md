@@ -11,7 +11,7 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 
 ## Supports
 
-The below networks are supported by default, and custom networks can be supported by providing your own instance a deployed Multicall contract.
+The below networks are supported by default, and custom networks can be supported by providing your own instance of a deployed Multicall contract.
 
 | Chain                   | Chain ID   |
 | ----------------------- | ---------- |
@@ -66,6 +66,7 @@ The below networks are supported by default, and custom networks can be supporte
 | Etherlite               | 111        |
 | Linea Testnet           | 59140      |
 | Linea                   | 59144      |
+| Scroll                  | 534352     |
 
 ## Installation
 
@@ -87,7 +88,7 @@ $ yarn add ethereum-multicall
 
 As the [official docs mentions here](https://docs.ethers.io/v3/api-contract.html#prototype):
 
-> Due to signature overloading, multiple functions can have the same name. The first function specifed in the ABI will be bound to its name. To access overloaded functions, use the full typed signature of the functions (e.g. contract["foobar(address,uint256)"]).
+> Due to signature overloading, multiple functions can have the same name. The first function specified in the ABI will be bound to its name. To access overloaded functions, use the full typed signature of the functions (e.g. contract["foobar(address,uint256)"]).
 
 So, when creating the contract call context, under the calls array property we should have that in mind and use the method signature rather than the method name. E.g.
 
@@ -375,7 +376,7 @@ console.log(results);
 
 ### passing extra context to the call
 
-If you want store any context or state so you don't need to look back over arrays once you got the result back. it can be stored in `context` within `ContractCallContext`.
+If you want to store any context or state so you don't need to look back over arrays once you got the result back. it can be stored in `context` within `ContractCallContext`.
 
 ```ts
 import {
