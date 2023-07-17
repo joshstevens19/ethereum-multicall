@@ -67,6 +67,8 @@ The below networks are supported by default, and custom networks can be supporte
 | Linea Testnet           | 59140      |
 | Linea                   | 59144      |
 | Scroll                  | 534352     |
+| zkSync Era              | 324        |
+| zkSync Era Testnet      | 280        |
 
 ## Installation
 
