@@ -50,7 +50,7 @@ export enum Networks {
   etherlite = 111,
   lineaTestnet = 59140,
   linea = 59144,
-  scroll = 534352,
+  scrollAlpha = 534352,
   zkSyncEra = 324,
   zkSyncEraTestnet = 280,
 }
