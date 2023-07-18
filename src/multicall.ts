@@ -602,7 +602,7 @@ export class Multicall {
       case Networks.zkSyncEra:
       case Networks.zkSyncEraTestnet:
         return '0xF9cda624FBC7e059355ce98a31693d299FACd963';
-      case Networks.scroll:
+      case Networks.scrollAlpha:
         return '0x2117f703867a2B7E6813c7e5Edd96bf9a8d8eC30';
       default:
         throw new Error(
