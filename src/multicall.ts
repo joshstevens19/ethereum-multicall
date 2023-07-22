@@ -596,13 +596,14 @@ export class Multicall {
       case Networks.kcc:
       case Networks.lineaTestnet:
       case Networks.linea:
-      case Networks.scroll:
         return '0xcA11bde05977b3631167028862bE2a173976CA11';
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
       case Networks.zkSyncEra:
       case Networks.zkSyncEraTestnet:
         return '0xF9cda624FBC7e059355ce98a31693d299FACd963';
+      case Networks.scrollAlpha:
+        return '0x2117f703867a2B7E6813c7e5Edd96bf9a8d8eC30';
       default:
         throw new Error(
           `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`
