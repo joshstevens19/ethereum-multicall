@@ -58,4 +58,5 @@ export enum Networks {
 
   pulsechain = 369,
   base = 8453,
+  sepolia = 11155111
 }
