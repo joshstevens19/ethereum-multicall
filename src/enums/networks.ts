@@ -54,5 +54,8 @@ export enum Networks {
   nova = 42170,
   dogechain = 2000,
   canto = 7700,
-  zksync = 324
+  zksync = 324,
+
+  pulsechain = 369,
+  base = 8453,
 }

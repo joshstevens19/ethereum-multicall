@@ -462,7 +462,9 @@ export class Multicall {
 
       return this.buildUpAggregateResponse(contractResponse, calls);
     } else {
-      const contractResponse = (await contract.callStatic.aggregate(
+      console.log('running this');
+      const contractResponse = (await contract.callStatic.tryBlockAndAggregate(
+        true,
         this.mapCallContextToMatchContractFormat(calls),
         overrideOptions
       )) as AggregateContractResponse;
@@ -656,6 +658,10 @@ export class Multicall {
         return '0xe4a8ee19f38522bae0d8219b6cba22ed48ee25d7';
       case Networks.zksync:
         return '0x30f32f526caaedaa557290609c02163927a5d151';
+      case Networks.pulsechain:
+        return '0x54db8bdb0b72efa1133cc3b8195d22d5490611e3';
+      case Networks.base:
+        return '0x0434529f41584c72150a21d41eeddad6652343c4';
       default:
         throw new Error(
           `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`
