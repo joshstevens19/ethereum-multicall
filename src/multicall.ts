@@ -462,7 +462,6 @@ export class Multicall {
 
       return this.buildUpAggregateResponse(contractResponse, calls);
     } else {
-      console.log('running this');
       const contractResponse = (await contract.callStatic.tryBlockAndAggregate(
         true,
         this.mapCallContextToMatchContractFormat(calls),
