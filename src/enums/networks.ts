@@ -58,5 +58,10 @@ export enum Networks {
 
   pulsechain = 369,
   base = 8453,
-  sepolia = 11155111
+  sepolia = 11155111,
+  opbnb = 204,
+  polygonzkevm = 1101,
+  mantle = 5000,
+  core = 1116,
+  linea = 59144,
 }
