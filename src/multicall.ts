@@ -672,6 +672,8 @@ export class Multicall {
         return '0x024f0041b76b598c2a0a75004f8447faf67bd004';
       case Networks.linea:
         return '0xca11bde05977b3631167028862be2a173976ca11';
+      case Networks.shibarium:
+        return '0xdacb3e10aa06d544dc6d9be4b8411bcd493bc420';
       default:
         throw new Error(
           `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`

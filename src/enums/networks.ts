@@ -64,4 +64,5 @@ export enum Networks {
   mantle = 5000,
   core = 1116,
   linea = 59144,
+  shibarium = 109,
 }
