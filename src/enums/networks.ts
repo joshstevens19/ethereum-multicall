@@ -53,4 +53,5 @@ export enum Networks {
   scrollAlpha = 534352,
   zkSyncEra = 324,
   zkSyncEraTestnet = 280,
+  shibarium = 109
 }
