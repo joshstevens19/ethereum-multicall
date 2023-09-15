@@ -185,7 +185,7 @@ export class Multicall {
         if (this._options.tryAggregate && !methodContext.result.success) {
           returnObjectResult.callsReturnContext.push(
             Utils.deepClone<CallReturnContext>({
-              returnValues: [],
+              returnValues: [methodContext.result.returnData],
               decoded: false,
               reference: originalContractCallMethodContext.reference,
               methodName: originalContractCallMethodContext.methodName,
