@@ -596,6 +596,8 @@ export class Multicall {
       case Networks.kcc:
       case Networks.lineaTestnet:
       case Networks.linea:
+      case Networks.mantle:
+      case Networks.mantleTestnet:
         return '0xcA11bde05977b3631167028862bE2a173976CA11';
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
