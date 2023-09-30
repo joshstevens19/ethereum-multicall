@@ -555,6 +555,7 @@ export class Multicall {
       case Networks.matic:
       case Networks.kovanOptimism:
       case Networks.xdai:
+      case Networks.xDaiTestnet:
       case Networks.goerliOptimism:
       case Networks.arbitrum:
       case Networks.rinkebyArbitrum:
@@ -598,6 +599,12 @@ export class Multicall {
       case Networks.linea:
       case Networks.mantle:
       case Networks.mantleTestnet:
+      case Networks.base:
+      case Networks.baseTestnet:
+      case Networks.polygonZkEvm:
+      case Networks.polygonZkEvmTestnet:
+      case Networks.zora:
+      case Networks.zoraTestnet:
         return '0xcA11bde05977b3631167028862bE2a173976CA11';
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';

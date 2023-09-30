@@ -8,6 +8,7 @@ export enum Networks {
   matic = 137,
   kovanOptimism = 69,
   xdai = 100,
+  xDaiTestnet = 10200,
   goerliOptimism = 420,
   arbitrum = 42161,
   rinkebyArbitrum = 421611,
@@ -56,4 +57,10 @@ export enum Networks {
   shibarium = 109,
   mantle = 5000,
   mantleTestnet = 5001,
+  base = 8453,
+  baseTestnet = 84531,
+  polygonZkEvm = 1101,
+  polygonZkEvmTestnet = 1442,
+  zora = 7777777,
+  zoraTestnet = 999,
 }

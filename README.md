@@ -13,64 +13,72 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 
 The below networks are supported by default, and custom networks can be supported by providing your own instance of a deployed Multicall contract.
 
-| Chain                   | Chain ID   |
-| ----------------------- | ---------- |
-| Mainnet                 | 1          |
-| Kovan                   | 3          |
-| Rinkeby                 | 4          |
-| Görli                   | 5          |
-| Ropsten                 | 10         |
-| Sepolia                 | 42         |
-| Optimism                | 137        |
-| Optimism Kovan          | 69         |
-| Optimism Görli          | 100        |
-| Arbitrum                | 420        |
-| Arbitrum Görli          | 42161      |
-| Arbitrum Rinkeby        | 421611     |
-| Polygon                 | 421613     |
-| Mumbai                  | 80001      |
-| Gnosis Chain (xDai)     | 11155111   |
-| Avalanche               | 43114      |
-| Avalanche Fuji          | 43113      |
-| Fantom Testnet          | 4002       |
-| Fantom Opera            | 250        |
-| BNB Smart Chain         | 56         |
-| BNB Smart Chain Testnet | 97         |
-| Moonbeam                | 1284       |
-| Moonriver               | 1285       |
-| Moonbase Alpha Testnet  | 1287       |
-| Harmony                 | 1666600000 |
-| Cronos                  | 25         |
-| Fuse                    | 122        |
-| Songbird Canary Network | 19         |
-| Coston Testnet          | 16         |
-| Boba                    | 288        |
-| Aurora                  | 1313161554 |
-| Astar                   | 592        |
-| OKC                     | 66         |
-| Heco Chain              | 128        |
-| Metis                   | 1088       |
-| RSK                     | 30         |
-| RSK Testnet             | 31         |
-| Evmos                   | 9001       |
-| Evmos Testnet           | 9000       |
-| Thundercore             | 108        |
-| Thundercore Testnet     | 18         |
-| Oasis                   | 26863      |
-| Celo                    | 42220      |
-| Godwoken                | 71402      |
-| Godwoken Testnet        | 71401      |
-| Klatyn                  | 8217       |
-| Milkomeda               | 2001       |
-| KCC                     | 321        |
-| Etherlite               | 111        |
-| Linea Testnet           | 59140      |
-| Linea                   | 59144      |
-| Scroll Alpha            | 534352     |
-| zkSync Era              | 324        |
-| zkSync Era Testnet      | 280        |
-| Mantle                  | 5000       |
-| Mantle Testnet          | 5001       |
+| Chain                 | Chain ID   |
+| --------------------- | ---------- |
+| Mainnet               | 1          |
+| Ropsten               | 3          |
+| Rinkeby               | 4          |
+| Görli                 | 5          |
+| Optimism              | 10         |
+| Kovan                 | 42         |
+| Matic                 | 137        |
+| KovanOptimism         | 69         |
+| xDai                  | 100        |
+| xDaiTestnet           | 10200      |
+| GoerliOptimism        | 420        |
+| Arbitrum              | 42161      |
+| RinkebyArbitrum       | 421611     |
+| GoerliArbitrum        | 421613     |
+| Mumbai                | 80001      |
+| Sepolia               | 11155111   |
+| AvalancheMainnet      | 43114      |
+| AvalancheFuji         | 43113      |
+| FantomTestnet         | 4002       |
+| Fantom                | 250        |
+| BSC                   | 56         |
+| BSC_Testnet           | 97         |
+| Moonbeam              | 1284       |
+| Moonriver             | 1285       |
+| MoonbaseAlphaTestnet  | 1287       |
+| Harmony               | 1666600000 |
+| Cronos                | 25         |
+| Fuse                  | 122        |
+| SongbirdCanaryNetwork | 19         |
+| CostonTestnet         | 16         |
+| Boba                  | 288        |
+| Aurora                | 1313161554 |
+| Astar                 | 592        |
+| OKC                   | 66         |
+| Heco                  | 128        |
+| Metis                 | 1088       |
+| RSK                   | 30         |
+| RSKTestnet            | 31         |
+| Evmos                 | 9001       |
+| EvmosTestnet          | 9000       |
+| Thundercore           | 108        |
+| ThundercoreTestnet    | 18         |
+| Oasis                 | 26863      |
+| Celo                  | 42220      |
+| Godwoken              | 71402      |
+| GodwokenTestnet       | 71401      |
+| Klatyn                | 8217       |
+| Milkomeda             | 2001       |
+| KCC                   | 321        |
+| Etherlite             | 111        |
+| Linea Testnet         | 59140      |
+| Linea                 | 59144      |
+| Scroll Alpha          | 534352     |
+| zkSync Era            | 324        |
+| zkSync Era Testnet    | 280        |
+| Shibarium             | 109        |
+| Mantle                | 5000       |
+| Mantle Testnet        | 5001       |
+| Base                  | 8453       |
+| Base Testnet          | 84531      |
+| PolygonZkEvm          | 1101       |
+| PolygonZkEvmTestnet   | 1442       |
+| Zora                  | 7777777    |
+| Zora Testnet          | 999        |
 
 ## Installation
 
