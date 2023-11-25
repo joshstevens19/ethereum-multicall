@@ -63,4 +63,6 @@ export enum Networks {
   polygonZkEvmTestnet = 1442,
   zora = 7777777,
   zoraTestnet = 999,
+  flare = 14,
+  pulsechain = 369,
 }

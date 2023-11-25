@@ -14,7 +14,7 @@ ethereum-multicall is fully written in typescript so has full compile time suppo
 The below networks are supported by default, and custom networks can be supported by providing your own instance of a deployed Multicall contract.
 
 | Chain                 | Chain ID   |
-| --------------------- | ---------- |
+|-----------------------|------------|
 | Mainnet               | 1          |
 | Ropsten               | 3          |
 | Rinkeby               | 4          |
@@ -79,6 +79,8 @@ The below networks are supported by default, and custom networks can be supporte
 | PolygonZkEvmTestnet   | 1442       |
 | Zora                  | 7777777    |
 | Zora Testnet          | 999        |
+| Flare Mainnet         | 14         |
+| Pulsechain Mainnet    | 369        |
 
 ## Installation
 
