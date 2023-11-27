@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { ContractCallContext, ContractCallResults, Multicall } from '../';
 
 const execute = async () => {
-  const provider = new ethers.providers.InfuraProvider(
+  const provider = new ethers.InfuraProvider(
     42,
     '9aa3d95b3bc440fa88ea12eaa4456161'
   );

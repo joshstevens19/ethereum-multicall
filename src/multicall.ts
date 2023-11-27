@@ -1,5 +1,4 @@
-import { BigNumber, ethers } from 'ethers';
-import { defaultAbiCoder } from 'ethers/lib/utils';
+import { ethers, AbiCoder } from 'ethers';
 import { ExecutionType, Networks } from './enums';
 import {
   AbiItem,
@@ -200,10 +199,10 @@ export class Multicall {
 
         if (outputTypes && outputTypes.length > 0) {
           try {
-            const decodedReturnValues = defaultAbiCoder.decode(
+            const decodedReturnValues = AbiCoder.defaultAbiCoder().decode(
               // tslint:disable-next-line: no-any
               outputTypes as any,
-              this.getReturnDataFromResult(methodContext.result)
+              this.getReturnDataFromResult(methodContext.result) as any
             );
 
             returnObjectResult.callsReturnContext.push(
@@ -298,7 +297,7 @@ export class Multicall {
 
     for (let contract = 0; contract < contractCallContexts.length; contract++) {
       const contractContext = contractCallContexts[contract];
-      const executingInterface = new ethers.utils.Interface(
+      const executingInterface = new ethers.Interface(
         JSON.stringify(contractContext.abi)
       );
 
@@ -333,12 +332,13 @@ export class Multicall {
     methodName: string
   ): AbiOutput[] | undefined {
     const contract = new ethers.Contract(
-      ethers.constants.AddressZero,
+      ethers.ZeroAddress,
       abi as any
     );
     methodName = methodName.trim();
-    if (contract.interface.functions[methodName]) {
-      return contract.interface.functions[methodName].outputs;
+    if (contract.interface.getFunction(methodName)) {
+      // TODO: should we change these to match AbiOutput? even though they are ParamType from ethers
+      return contract.interface.getFunction(methodName)?.outputs as unknown as AbiOutput[];
     }
 
     for (let i = 0; i < abi.length; i++) {
@@ -395,19 +395,11 @@ export class Multicall {
         )
         .call(...callParams)) as AggregateContractResponse;
 
-      contractResponse.blockNumber = BigNumber.from(
-        contractResponse.blockNumber
-      );
-
       return this.buildUpAggregateResponse(contractResponse, calls);
     } else {
       const contractResponse = (await contract.methods
         .aggregate(this.mapCallContextToMatchContractFormat(calls))
         .call(...callParams)) as AggregateContractResponse;
-
-      contractResponse.blockNumber = BigNumber.from(
-        contractResponse.blockNumber
-      );
 
       return this.buildUpAggregateResponse(contractResponse, calls);
     }
@@ -429,18 +421,18 @@ export class Multicall {
         MulticallOptionsCustomJsonRpcProvider
       >();
       if (customProvider.nodeUrl) {
-        ethersProvider = new ethers.providers.JsonRpcProvider(
+        ethersProvider = new ethers.JsonRpcProvider(
           customProvider.nodeUrl
         );
       } else {
-        ethersProvider = ethers.getDefaultProvider();
+        ethersProvider = ethers.getDefaultProvider(1);
       }
     }
 
     const network = await ethersProvider.getNetwork();
 
     const contract = new ethers.Contract(
-      this.getContractBasedOnNetwork(network.chainId),
+      this.getContractBasedOnNetwork(Number(network.chainId)),
       Multicall.ABI,
       ethersProvider
     );
@@ -452,7 +444,7 @@ export class Multicall {
       };
     }
     if (this._options.tryAggregate) {
-      const contractResponse = (await contract.callStatic.tryBlockAndAggregate(
+      const contractResponse = (await contract.tryBlockAndAggregate.staticCall(
         false,
         this.mapCallContextToMatchContractFormat(calls),
         overrideOptions
@@ -460,7 +452,7 @@ export class Multicall {
 
       return this.buildUpAggregateResponse(contractResponse, calls);
     } else {
-      const contractResponse = (await contract.callStatic.aggregate(
+      const contractResponse = (await contract.aggregate.staticCall(
         this.mapCallContextToMatchContractFormat(calls),
         overrideOptions
       )) as AggregateContractResponse;
@@ -480,7 +472,7 @@ export class Multicall {
     calls: AggregateCallContext[]
   ): AggregateResponse {
     const aggregateResponse: AggregateResponse = {
-      blockNumber: contractResponse.blockNumber.toNumber(),
+      blockNumber: Number(contractResponse.blockNumber),
       results: [],
     };
 
