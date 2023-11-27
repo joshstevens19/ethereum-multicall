@@ -20,7 +20,6 @@
   "license": "ISC",
   "dependencies": {
     "@ethersproject/providers": "^5.0.10",
-    "@ungap/structured-clone": "^1.2.0",
     "ethers": "^6.6.0"
   },
   "devDependencies": {
