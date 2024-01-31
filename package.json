@@ -19,8 +19,8 @@
   "author": "joshstevens19@hotmail.co.uk",
   "license": "ISC",
   "dependencies": {
-    "@ethersproject/providers": "^5.0.10",
-    "ethers": "^5.0.15"
+    "@ethersproject/providers": "^5.5.3",
+    "ethers": "^5.5.4"
   },
   "devDependencies": {
     "@types/node": "^14.11.2",
