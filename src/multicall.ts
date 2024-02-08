@@ -557,9 +557,11 @@ export class Multicall {
       case Networks.xdai:
       case Networks.xDaiTestnet:
       case Networks.goerliOptimism:
+      case Networks.sepoliaOptimism:
       case Networks.arbitrum:
       case Networks.rinkebyArbitrum:
       case Networks.goerliArbitrum:
+      case Networks.sepoliaArbitrum:
       case Networks.mumbai:
       case Networks.sepolia:
       case Networks.avalancheMainnet:
@@ -612,6 +614,7 @@ export class Multicall {
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
       case Networks.zkSyncEra:
       case Networks.zkSyncEraTestnet:
+      case Networks.zkSyncEraSepoliaTestnet:
         return '0xF9cda624FBC7e059355ce98a31693d299FACd963';
       case Networks.scroll:
       case Networks.scrollSepolia:
