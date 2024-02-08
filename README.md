@@ -69,7 +69,7 @@ The below networks are supported by default, and custom networks can be supporte
 | Etherlite             | 111        |
 | Linea Testnet         | 59140      |
 | Linea                 | 59144      |
-| Scroll Alpha          | 534352     |
+| Scroll                | 534352     |
 | Scroll Sepolia        | 534531     |
 | zkSync Era            | 324        |
 | zkSync Era Testnet    | 280        |

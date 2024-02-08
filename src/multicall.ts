@@ -609,6 +609,8 @@ export class Multicall {
       case Networks.zoraTestnet:
       case Networks.flare:
       case Networks.pulsechain:
+      case Networks.scroll:
+      case Networks.scrollSepolia:
         return '0xcA11bde05977b3631167028862bE2a173976CA11';
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
@@ -616,8 +618,6 @@ export class Multicall {
       case Networks.zkSyncEraTestnet:
       case Networks.zkSyncEraSepoliaTestnet:
         return '0xF9cda624FBC7e059355ce98a31693d299FACd963';
-      case Networks.scroll:
-      case Networks.scrollSepolia:
       case Networks.shibarium:
         return '0xd1727fC8F78aBA7DD6294f6033D74c72Ccd3D3B0';
       default:
