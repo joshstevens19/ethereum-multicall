@@ -26,9 +26,11 @@ The below networks are supported by default, and custom networks can be supporte
 | xDai                  | 100        |
 | xDaiTestnet           | 10200      |
 | GoerliOptimism        | 420        |
+| SepoliaOptimism       | 11155420   |
 | Arbitrum              | 42161      |
 | RinkebyArbitrum       | 421611     |
 | GoerliArbitrum        | 421613     |
+| SepoliaArbitrum       | 421614     |
 | Mumbai                | 80001      |
 | Sepolia               | 11155111   |
 | AvalancheMainnet      | 43114      |
@@ -67,9 +69,11 @@ The below networks are supported by default, and custom networks can be supporte
 | Etherlite             | 111        |
 | Linea Testnet         | 59140      |
 | Linea                 | 59144      |
-| Scroll Alpha          | 534352     |
+| Scroll                | 534352     |
+| Scroll Sepolia        | 534531     |
 | zkSync Era            | 324        |
 | zkSync Era Testnet    | 280        |
+| zkSync Era Sepolia    | 300        |
 | Shibarium             | 109        |
 | Mantle                | 5000       |
 | Mantle Testnet        | 5001       |
