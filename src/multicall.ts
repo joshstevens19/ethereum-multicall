@@ -421,13 +421,12 @@ export class Multicall {
     calls: AggregateCallContext[],
     options: ContractCallOptions
   ): Promise<AggregateResponse> {
-    let ethersProvider = this.getTypedOptions<MulticallOptionsEthers>()
-      .ethersProvider;
+    let ethersProvider =
+      this.getTypedOptions<MulticallOptionsEthers>().ethersProvider;
 
     if (!ethersProvider) {
-      const customProvider = this.getTypedOptions<
-        MulticallOptionsCustomJsonRpcProvider
-      >();
+      const customProvider =
+        this.getTypedOptions<MulticallOptionsCustomJsonRpcProvider>();
       if (customProvider.nodeUrl) {
         ethersProvider = new ethers.providers.JsonRpcProvider(
           customProvider.nodeUrl
@@ -531,7 +530,7 @@ export class Multicall {
    * Get typed options
    */
   private getTypedOptions<T>(): T {
-    return (this._options as unknown) as T;
+    return this._options as unknown as T;
   }
 
   /**
@@ -620,6 +619,11 @@ export class Multicall {
         return '0xF9cda624FBC7e059355ce98a31693d299FACd963';
       case Networks.shibarium:
         return '0xd1727fC8F78aBA7DD6294f6033D74c72Ccd3D3B0';
+      case Networks.starknet:
+        return '0xc662c410C0ECf747543f5bA90660f6ABeBD9C8c4';
+      case Networks.starknetTestnet:
+        return '0xde29d060D45901Fb19ED6C6e959EB22d8626708e';
+
       default:
         throw new Error(
           `Network - ${network} doesn't have a multicall contract address defined. Please check your network or deploy your own contract on it.`
