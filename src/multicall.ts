@@ -603,6 +603,7 @@ export class Multicall {
       case Networks.mantleTestnet:
       case Networks.base:
       case Networks.baseTestnet:
+      case Networks.blastSepolia:
       case Networks.polygonZkEvm:
       case Networks.polygonZkEvmTestnet:
       case Networks.zora:
