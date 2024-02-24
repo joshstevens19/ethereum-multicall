@@ -86,6 +86,8 @@ The below networks are supported by default, and custom networks can be supporte
 | Zora Testnet          | 999        |
 | Flare Mainnet         | 14         |
 | Pulsechain Mainnet    | 369        |
+| Starknet              | 300        |
+| starknet testnet      | 301        |
 
 ## Installation
 
