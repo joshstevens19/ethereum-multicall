@@ -79,6 +79,7 @@ The below networks are supported by default, and custom networks can be supporte
 | Mantle Testnet        | 5001       |
 | Base                  | 8453       |
 | Base Testnet          | 84531      |
+| Blast Sepolia         | 168587773  |
 | PolygonZkEvm          | 1101       |
 | PolygonZkEvmTestnet   | 1442       |
 | Zora                  | 7777777    |

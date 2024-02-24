@@ -63,6 +63,7 @@ export enum Networks {
   mantleTestnet = 5001,
   base = 8453,
   baseTestnet = 84531,
+  blastSepolia = 168587773,
   polygonZkEvm = 1101,
   polygonZkEvmTestnet = 1442,
   zora = 7777777,
