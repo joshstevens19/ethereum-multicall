@@ -73,4 +73,5 @@ export enum Networks {
   flare = 14,
   pulsechain = 369,
   sapphire = 23294,
+  blast = 81457,
 }
