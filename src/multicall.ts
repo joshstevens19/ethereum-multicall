@@ -676,6 +676,8 @@ export class Multicall {
         return '0xdacb3e10aa06d544dc6d9be4b8411bcd493bc420';
       case Networks.blast:
         return '0xca11bde05977b3631167028862be2a173976ca11';
+      case Networks.blastmainnet:
+        return '0xca11bde05977b3631167028862be2a173976ca11';
       case Networks.berachain:
         return '0x9d1db8253105b007ddde65ce262f701814b91125';
       default:

@@ -66,5 +66,6 @@ export enum Networks {
   linea = 59144,
   shibarium = 109,
   blast = 168587773,
-  berachain = 80085
+  blastmainnet = 81457,
+  berachain = 80085,
 }
