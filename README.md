@@ -88,6 +88,8 @@ The below networks are supported by default, and custom networks can be supporte
 | Pulsechain Mainnet    | 369        |
 | Starknet              | 300        |
 | starknet testnet      | 301        |
+| blast                 | 301        |
+| amoy                  | 80002      |
 
 ## Installation
 
