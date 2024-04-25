@@ -90,6 +90,7 @@ The below networks are supported by default, and custom networks can be supporte
 | starknet testnet      | 301        |
 | blast                 | 301        |
 | amoy                  | 80002      |
+| Manta Pacific Mainnet | 169      |
 
 ## Installation
 
