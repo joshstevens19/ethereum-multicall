@@ -74,5 +74,6 @@ export enum Networks {
   pulsechain = 369,
   sapphire = 23294,
   blast = 81457,
-  amoy = 80002
+  amoy = 80002,
+  mantaPacific = 169
 }
