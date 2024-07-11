@@ -394,9 +394,7 @@ export class Multicall {
           false,
           this.mapCallContextToMatchContractFormat(calls)
         )
-        .call({
-          blockNumber: blockNumber,
-        })) as AggregateContractResponse;
+        .call({}, blockNumber)) as AggregateContractResponse;
 
       contractResponse.blockNumber = BigNumber.from(
         contractResponse.blockNumber
@@ -406,9 +404,7 @@ export class Multicall {
     } else {
       const contractResponse = (await contract.methods
         .aggregate(this.mapCallContextToMatchContractFormat(calls))
-        .call({
-          blockNumber: blockNumber,
-        })) as AggregateContractResponse;
+        .call({}, blockNumber)) as AggregateContractResponse;
 
       contractResponse.blockNumber = BigNumber.from(
         contractResponse.blockNumber
