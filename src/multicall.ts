@@ -616,6 +616,8 @@ export class Multicall {
       case Networks.amoy:
       case Networks.mode:
         return '0xcA11bde05977b3631167028862bE2a173976CA11';
+      case Networks.modeTestnet:
+        return '0xBAba8373113Fb7a68f195deF18732e01aF8eDfCF';
       case Networks.etherlite:
         return '0x21681750D7ddCB8d1240eD47338dC984f94AF2aC';
       case Networks.zkSyncEra:
