@@ -388,6 +388,7 @@ export class Multicall {
     if (options.blockNumber) {
       blockNumber = options.blockNumber;
     }
+    console.log('blockNumber', blockNumber);
     if (this._options.tryAggregate) {
       const contractResponse = (await contract.methods
         .tryBlockAndAggregate(
