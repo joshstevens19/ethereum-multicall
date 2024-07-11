@@ -406,7 +406,9 @@ export class Multicall {
     } else {
       const contractResponse = (await contract.methods
         .aggregate(this.mapCallContextToMatchContractFormat(calls))
-        .call(...callParams)) as AggregateContractResponse;
+        .call({
+          blockNumber: blockNumber,
+        })) as AggregateContractResponse;
 
       contractResponse.blockNumber = BigNumber.from(
         contractResponse.blockNumber
