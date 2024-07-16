@@ -75,7 +75,7 @@ export enum Networks {
   sapphire = 23294,
   blast = 81457,
   amoy = 80002,
-  mantaPacific = 169
+  mantaPacific = 169,
   mode = 34443,
   modeTestnet = 919,
 }
