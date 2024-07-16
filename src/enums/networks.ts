@@ -76,4 +76,5 @@ export enum Networks {
   blast = 81457,
   amoy = 80002,
   mode = 34443,
+  modeTestnet = 919,
 }
