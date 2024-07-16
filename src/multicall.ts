@@ -614,6 +614,7 @@ export class Multicall {
       case Networks.sapphire:
       case Networks.blast:
       case Networks.amoy:
+      case Networks.mantaPacific:
       case Networks.mode:
         return '0xcA11bde05977b3631167028862bE2a173976CA11';
       case Networks.modeTestnet:

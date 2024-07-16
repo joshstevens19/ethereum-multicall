@@ -88,10 +88,11 @@ The below networks are supported by default, and custom networks can be supporte
 | Pulsechain Mainnet    | 369        |
 | Starknet              | 300        |
 | Starknet Testnet      | 301        |
-| Blast                 | 301        |
+| Blast                 | 81457      |
 | Amoy                  | 80002      |
 | Mode                  | 34443      |
 | Mode Testnet          | 919        |
+| Manta Pacific Mainnet | 169        |
 
 ## Installation
 
