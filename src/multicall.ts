@@ -383,9 +383,10 @@ export class Multicall {
       Multicall.ABI,
       this.getContractBasedOnNetwork(networkId)
     );
-    const callParams = [];
+    // const callParams = [];
+    let blockNumber = 'latest';
     if (options.blockNumber) {
-      callParams.push(options.blockNumber);
+      blockNumber = options.blockNumber;
     }
     if (this._options.tryAggregate) {
       const contractResponse = (await contract.methods
@@ -393,7 +394,7 @@ export class Multicall {
           false,
           this.mapCallContextToMatchContractFormat(calls)
         )
-        .call(...callParams)) as AggregateContractResponse;
+        .call({}, blockNumber)) as AggregateContractResponse;
 
       contractResponse.blockNumber = BigNumber.from(
         contractResponse.blockNumber
@@ -403,7 +404,7 @@ export class Multicall {
     } else {
       const contractResponse = (await contract.methods
         .aggregate(this.mapCallContextToMatchContractFormat(calls))
-        .call(...callParams)) as AggregateContractResponse;
+        .call({}, blockNumber)) as AggregateContractResponse;
 
       contractResponse.blockNumber = BigNumber.from(
         contractResponse.blockNumber
