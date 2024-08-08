@@ -665,15 +665,3 @@ const multicall = new Multicall({
 Please raise any issues in the below link.
 
 https://github.com/joshstevens19/ethereum-multicall/issues
-
-## Thanks And Support
-
-This package is brought to you by [Josh Stevens](https://github.com/joshstevens19). My aim is to be able to keep creating these awesome packages to help the Ethereum space grow with easier-to-use tools to allow the learning curve to get involved with blockchain development easier and making Ethereum ecosystem better. If you want to help with that vision and allow me to invest more time into creating cool packages or if this package has saved you a lot of development time donations are welcome, every little helps. By donating, you are supporting me to be able to maintain existing packages, extend existing packages (as Ethereum matures), and allowing me to build more packages for Ethereum due to being able to invest more time into it. Thanks, everyone!
-
-## Direct donations
-
-Direct donations any token accepted - Eth address > `0x699c2daD091ffcF18f3cd9E8495929CA3a64dFe1`
-
-## Github sponsors
-
-[sponsor me](https://github.com/sponsors/joshstevens19) via github using fiat money
