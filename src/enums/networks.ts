@@ -78,4 +78,5 @@ export enum Networks {
   mantaPacific = 169,
   mode = 34443,
   modeTestnet = 919,
+  bob = 60808,
 }
