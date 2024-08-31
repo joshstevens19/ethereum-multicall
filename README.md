@@ -93,6 +93,7 @@ The below networks are supported by default, and custom networks can be supporte
 | Mode                  | 34443      |
 | Mode Testnet          | 919        |
 | Manta Pacific Mainnet | 169        |
+| Bob Mainnet           | 60808      |
 
 ## Installation
 
