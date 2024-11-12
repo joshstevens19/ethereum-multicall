@@ -74,6 +74,7 @@ The below networks are supported by default, and custom networks can be supporte
 | zkSync Era            | 324        |
 | zkSync Era Testnet    | 280        |
 | zkSync Era Sepolia    | 300        |
+| Sei                   | 1328       |
 | Shibarium             | 109        |
 | Mantle                | 5000       |
 | Mantle Testnet        | 5001       |

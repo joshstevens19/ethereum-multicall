@@ -58,6 +58,7 @@ export enum Networks {
   zkSyncEra = 324,
   zkSyncEraTestnet = 280,
   zkSyncEraSepoliaTestnet = 300,
+  sei = 1328,
   starknet = 300,
   starknetTestnet = 301,
   shibarium = 109,

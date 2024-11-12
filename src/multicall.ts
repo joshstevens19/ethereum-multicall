@@ -563,6 +563,7 @@ export class Multicall {
       case Networks.goerliArbitrum:
       case Networks.sepoliaArbitrum:
       case Networks.mumbai:
+      case Networks.sei:
       case Networks.sepolia:
       case Networks.avalancheMainnet:
       case Networks.avalancheFuji:
