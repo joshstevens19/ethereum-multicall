@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "@company-z/crypto-types": "2.2.1",
-    "@ethersproject/providers": "^5.0.10",
-    "ethers": "^5.0.15"
+    "@ethersproject/providers": "5.8.0",
+    "ethers": "5.8.0"
   },
   "devDependencies": {
     "@types/node": "^14.11.2",
