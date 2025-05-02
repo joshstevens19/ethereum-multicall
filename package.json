@@ -1,7 +1,7 @@
 {
   "name": "ethereum-multicall",
   "version": "2.26.0",
-  "description": "Multicall allows multiple smart contract constant function calls to be grouped into a single call and the results aggregated into a single result",
+  "description": "ethereum-multicall is a lightweight library for interacting with the Multicall3 smart contract.",
   "main": "dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
