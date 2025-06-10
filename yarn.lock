@@ -5,20 +5,10 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@company-z/crypto-types@npm:2.2.1":
-  version: 2.2.1
-  resolution: "@company-z/crypto-types@npm:2.2.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40company-z%2Fcrypto-types%2F2.2.1%2F25e8560f3e19c3b964866794abc1050313a48764"
-  peerDependencies:
-    typescript: ^4
-  checksum: 0b376c86e86f42127e377ad8a49b79cb5315fe4002558bc564e0b5f1d226850738b45f17d1f2d49de4360c67d32802df6cb960ab6e280341f53777b1619fc993
-  languageName: node
-  linkType: hard
-
 "@company-z/ethereum-multicall@workspace:.":
   version: 0.0.0-use.local
   resolution: "@company-z/ethereum-multicall@workspace:."
   dependencies:
-    "@company-z/crypto-types": 2.2.1
     "@ethersproject/providers": 5.8.0
     "@types/node": ^14.11.2
     ethereum-abi-types-generator: ^1.0.6

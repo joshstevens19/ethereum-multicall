@@ -1,6 +1,6 @@
 {
   "name": "@company-z/ethereum-multicall",
-  "version": "2.14.19",
+  "version": "2.14.20",
   "description": "Multicall allows multiple smart contract constant function calls to be grouped into a single call and the results aggregated into a single result",
   "main": "dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -22,7 +22,6 @@
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "@company-z/crypto-types": "2.2.1",
     "@ethersproject/providers": "5.8.0",
     "ethers": "5.8.0"
   },
