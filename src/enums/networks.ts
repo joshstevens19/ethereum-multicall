@@ -80,4 +80,6 @@ export enum Networks {
   mode = 34443,
   modeTestnet = 919,
   bob = 60808,
+  soneium = 1868,
+  soneiumMinato = 1946,
 }

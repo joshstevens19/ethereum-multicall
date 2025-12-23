@@ -95,6 +95,8 @@ The below networks are supported by default, and custom networks can be supporte
 | Mode Testnet          | 919        |
 | Manta Pacific Mainnet | 169        |
 | Bob Mainnet           | 60808      |
+| Soneium               | 1868       |
+| Soneium Minato        | 1946       |
 
 ## Installation
 
